@@ -1,6 +1,6 @@
 using CarRental.Api.Configuration;
 using CarRental.Api.Middleware;
-using CarRental.Infrastructure;
+using CarRental.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,12 +11,14 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.RegisterInfrastructure(builder.Configuration);
+builder.Services.RegisterServices(builder.Configuration);
 builder.Services.ConfigureSwagger(builder.Configuration);
 
 builder.Services.AddTransient<ExceptionMiddleware>();
 
 var app = builder.Build();
+
+await app.SeedIdentityAsync();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
