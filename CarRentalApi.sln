@@ -3,17 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRental.Api", "CarRental.Api\CarRental.Api.csproj", "{D88AED78-BDB3-46A8-8917-37A98E2048BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRental.Api", "CarRental.Api\CarRental.Api.csproj", "{D88AED78-BDB3-46A8-8917-37A98E2048BA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E1A741D6-5677-4F53-A120-3E0E4F4619EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRental.Domain", "CarRental.Domain\CarRental.Domain.csproj", "{19AE91D5-5E31-413D-AA69-01BE784A2A1D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRental.Domain", "CarRental.Domain\CarRental.Domain.csproj", "{19AE91D5-5E31-413D-AA69-01BE784A2A1D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRental.Application", "CarRental.Application\CarRental.Application.csproj", "{12C2E5C7-0348-4A4B-943B-865468E2A22D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRental.Application", "CarRental.Application\CarRental.Application.csproj", "{12C2E5C7-0348-4A4B-943B-865468E2A22D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{C98B722E-DA62-49FB-829F-EE39C26D67F9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRental.Infrastructure", "CarRental.Infrastructure\CarRental.Infrastructure.csproj", "{D3D1460A-F8A7-4906-9E0C-69C9BC0EDAAE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRental.Infrastructure", "CarRental.Infrastructure\CarRental.Infrastructure.csproj", "{D3D1460A-F8A7-4906-9E0C-69C9BC0EDAAE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRental.Utility", "CarRental.Utility\CarRental.Utility.csproj", "{DEB5DB19-0B3C-4201-9C6B-CEF16AB3B01A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +39,10 @@ Global
 		{D3D1460A-F8A7-4906-9E0C-69C9BC0EDAAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D3D1460A-F8A7-4906-9E0C-69C9BC0EDAAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D3D1460A-F8A7-4906-9E0C-69C9BC0EDAAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DEB5DB19-0B3C-4201-9C6B-CEF16AB3B01A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEB5DB19-0B3C-4201-9C6B-CEF16AB3B01A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEB5DB19-0B3C-4201-9C6B-CEF16AB3B01A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEB5DB19-0B3C-4201-9C6B-CEF16AB3B01A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -46,6 +52,7 @@ Global
 		{12C2E5C7-0348-4A4B-943B-865468E2A22D} = {C98B722E-DA62-49FB-829F-EE39C26D67F9}
 		{C98B722E-DA62-49FB-829F-EE39C26D67F9} = {E1A741D6-5677-4F53-A120-3E0E4F4619EA}
 		{D3D1460A-F8A7-4906-9E0C-69C9BC0EDAAE} = {E1A741D6-5677-4F53-A120-3E0E4F4619EA}
+		{DEB5DB19-0B3C-4201-9C6B-CEF16AB3B01A} = {E1A741D6-5677-4F53-A120-3E0E4F4619EA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {789A298D-E9F6-440B-A1DD-52C7FD2C0E5F}
