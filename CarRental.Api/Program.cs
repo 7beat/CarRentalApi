@@ -24,7 +24,10 @@ await app.SeedIdentityAsync();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "CarRental API v1");
+    });
 }
 
 app.UseHttpsRedirection();
