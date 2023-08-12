@@ -11,6 +11,9 @@ namespace CarRental.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateSequence(
+                name: "VehicleSequence");
+
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -52,6 +55,22 @@ namespace CarRental.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Engines",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Model = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Horsepower = table.Column<int>(type: "int", nullable: false),
+                    Displacement = table.Column<double>(type: "float", nullable: false),
+                    FuelType = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Engines", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -160,6 +179,65 @@ namespace CarRental.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Cars",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false, defaultValueSql: "NEXT VALUE FOR [VehicleSequence]"),
+                    Brand = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Model = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DateOfProduction = table.Column<DateTime>(type: "date", nullable: false),
+                    EngineId = table.Column<int>(type: "int", nullable: false),
+                    NumberOfDoors = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cars", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Cars_Engines_EngineId",
+                        column: x => x.EngineId,
+                        principalTable: "Engines",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Motorcycles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false, defaultValueSql: "NEXT VALUE FOR [VehicleSequence]"),
+                    Brand = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Model = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DateOfProduction = table.Column<DateTime>(type: "date", nullable: false),
+                    EngineId = table.Column<int>(type: "int", nullable: false),
+                    NumberOfWheels = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Motorcycles", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Motorcycles_Engines_EngineId",
+                        column: x => x.EngineId,
+                        principalTable: "Engines",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Engines",
+                columns: new[] { "Id", "Displacement", "FuelType", "Horsepower", "Model" },
+                values: new object[] { 1, 1.0, "Gasoline", 1, "TestEngine" });
+
+            migrationBuilder.InsertData(
+                table: "Cars",
+                columns: new[] { "Id", "Brand", "DateOfProduction", "EngineId", "Model", "NumberOfDoors" },
+                values: new object[] { 1, "Ford", new DateTime(2019, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "Mondeo", 5 });
+
+            migrationBuilder.InsertData(
+                table: "Motorcycles",
+                columns: new[] { "Id", "Brand", "DateOfProduction", "EngineId", "Model", "NumberOfWheels" },
+                values: new object[] { 2, "Kawasaki", new DateTime(2016, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "Ninja", 2 });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -198,6 +276,16 @@ namespace CarRental.Infrastructure.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cars_EngineId",
+                table: "Cars",
+                column: "EngineId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Motorcycles_EngineId",
+                table: "Motorcycles",
+                column: "EngineId");
         }
 
         /// <inheritdoc />
@@ -219,10 +307,22 @@ namespace CarRental.Infrastructure.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Cars");
+
+            migrationBuilder.DropTable(
+                name: "Motorcycles");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Engines");
+
+            migrationBuilder.DropSequence(
+                name: "VehicleSequence");
         }
     }
 }

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarRental.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230811234643_AddedVehiclesConfiguration")]
-    partial class AddedVehiclesConfiguration
+    [Migration("20230812014735_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -51,6 +51,8 @@ namespace CarRental.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EngineId");
 
                     b.ToTable((string)null);
 
@@ -310,8 +312,6 @@ namespace CarRental.Infrastructure.Migrations
                     b.Property<int>("NumberOfDoors")
                         .HasColumnType("int");
 
-                    b.HasIndex("EngineId");
-
                     b.ToTable("Cars");
 
                     b.HasData(
@@ -333,8 +333,6 @@ namespace CarRental.Infrastructure.Migrations
                     b.Property<int>("NumberOfWheels")
                         .HasColumnType("int");
 
-                    b.HasIndex("EngineId");
-
                     b.ToTable("Motorcycles");
 
                     b.HasData(
@@ -347,6 +345,17 @@ namespace CarRental.Infrastructure.Migrations
                             Model = "Ninja",
                             NumberOfWheels = 2
                         });
+                });
+
+            modelBuilder.Entity("CarRental.Domain.Common.Vehicle", b =>
+                {
+                    b.HasOne("CarRental.Domain.Entities.Engine", "Engine")
+                        .WithMany("Vehicles")
+                        .HasForeignKey("EngineId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Engine");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -400,31 +409,9 @@ namespace CarRental.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("CarRental.Domain.Entities.Car", b =>
-                {
-                    b.HasOne("CarRental.Domain.Entities.Engine", "Engine")
-                        .WithMany("Cars")
-                        .HasForeignKey("EngineId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Engine");
-                });
-
-            modelBuilder.Entity("CarRental.Domain.Entities.Motorcycle", b =>
-                {
-                    b.HasOne("CarRental.Domain.Entities.Engine", "Engine")
-                        .WithMany()
-                        .HasForeignKey("EngineId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Engine");
-                });
-
             modelBuilder.Entity("CarRental.Domain.Entities.Engine", b =>
                 {
-                    b.Navigation("Cars");
+                    b.Navigation("Vehicles");
                 });
 #pragma warning restore 612, 618
         }
