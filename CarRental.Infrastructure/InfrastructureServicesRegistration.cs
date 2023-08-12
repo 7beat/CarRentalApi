@@ -1,7 +1,9 @@
 ﻿using CarRental.Application.Contracts.Identity;
+using CarRental.Application.Contracts.Persistence;
 using CarRental.Infrastructure.Identity.Models;
 using CarRental.Infrastructure.Persistence.Data;
 using CarRental.Infrastructure.Services;
+using CarRental.Persistence;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +17,7 @@ public static class InfrastructureServicesRegistration
     public static void RegisterInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         services.ConfigureDbContext(configuration);
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddTransient<IAuthService, AuthService>();
         services.AddTransient<IAuthorizationHandler, RoleAuthorizationHandler>();
         services.ConfigureIdentity();
