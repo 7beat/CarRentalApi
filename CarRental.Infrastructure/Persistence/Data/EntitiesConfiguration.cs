@@ -11,7 +11,7 @@ internal static class EntitiesConfiguration
         builder.Entity<Vehicle>().HasOne(v => v.Engine).WithMany().HasForeignKey(v => v.EngineId);
 
         builder.Entity<Engine>().HasKey(e => e.Id);
-        builder.Entity<Engine>().HasMany(e => e.Cars).WithOne(c => c.Engine).HasForeignKey(c => c.EngineId);
+        builder.Entity<Engine>().HasMany(e => e.Vehicles).WithOne(c => c.Engine).HasForeignKey(c => c.EngineId);
         builder.Entity<Engine>().Property(e => e.FuelType).HasConversion<string>();
 
 

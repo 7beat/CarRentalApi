@@ -8,7 +8,7 @@ public class Engine : EntityBase
     public double Displacement { get; set; }
     public FuelType FuelType { get; set; }
 
-    public ICollection<Car> Cars { get; set; }
+    public ICollection<Vehicle> Vehicles { get; set; }
 }
 
 public enum FuelType
