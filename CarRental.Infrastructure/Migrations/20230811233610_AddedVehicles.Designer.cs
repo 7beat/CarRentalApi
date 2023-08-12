@@ -4,6 +4,7 @@ using CarRental.Infrastructure.Persistence.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarRental.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230811233610_AddedVehicles")]
+    partial class AddedVehicles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -65,9 +68,8 @@ namespace CarRental.Infrastructure.Migrations
                     b.Property<double>("Displacement")
                         .HasColumnType("float");
 
-                    b.Property<string>("FuelType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("FuelType")
+                        .HasColumnType("int");
 
                     b.Property<int>("Horsepower")
                         .HasColumnType("int");
@@ -79,16 +81,6 @@ namespace CarRental.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Engines");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Displacement = 1.0,
-                            FuelType = "Gasoline",
-                            Horsepower = 1,
-                            Model = "TestEngine"
-                        });
                 });
 
             modelBuilder.Entity("CarRental.Infrastructure.Identity.Models.ApplicationUser", b =>
@@ -310,17 +302,6 @@ namespace CarRental.Infrastructure.Migrations
                     b.HasIndex("EngineId");
 
                     b.ToTable("Cars");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Brand = "Ford",
-                            DateOfProduction = new DateTime(2019, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EngineId = 1,
-                            Model = "Mondeo",
-                            NumberOfDoors = 5
-                        });
                 });
 
             modelBuilder.Entity("CarRental.Domain.Entities.Motorcycle", b =>
@@ -333,17 +314,6 @@ namespace CarRental.Infrastructure.Migrations
                     b.HasIndex("EngineId");
 
                     b.ToTable("Motorcycles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 2,
-                            Brand = "Kawasaki",
-                            DateOfProduction = new DateTime(2016, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EngineId = 1,
-                            Model = "Ninja",
-                            NumberOfWheels = 2
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
