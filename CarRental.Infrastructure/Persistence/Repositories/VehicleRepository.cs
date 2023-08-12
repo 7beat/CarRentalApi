@@ -16,4 +16,23 @@ public class VehicleRepository : GenericRepository<Vehicle>, IVehicleRepository
     {
         throw new NotImplementedException();
     }
+
+    public async Task<Vehicle> FindSingleOfType(int id, VehicleType vehicleType)
+    {
+        Vehicle? vehicle = null;
+
+        switch (vehicleType)
+        {
+            case VehicleType.Car:
+                vehicle = await _dbContext.Cars.FindAsync(id);
+                break;
+            case VehicleType.Motorcycle:
+                vehicle = await _dbContext.Motorcycles.FindAsync(id);
+                break;
+            default:
+                break;
+        }
+
+        return vehicle;
+    }
 }
