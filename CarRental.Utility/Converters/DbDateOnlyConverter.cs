@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace CarRental.Utilities.Converters;
+namespace CarRental.Utility.Converters;
 
 /// <summary>
 /// Converter that seamlessly transforms <see cref="DateOnly" /> instances to <see cref="DateTime"/> and vice versa.
