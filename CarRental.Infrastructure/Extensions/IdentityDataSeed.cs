@@ -47,7 +47,7 @@ public static class IdentityDataSeed
                 EmailConfirmed = true,
                 FirstName = "John",
                 LastName = "Doe",
-                //Birthday = new(1999, 06, 08)
+                Birthday = new(1999, 06, 08)
             };
 
             var result = await userManager.CreateAsync(user, initPw);
