@@ -11,8 +11,10 @@ public record AddCarCommand : IRequest<int>
     public string Brand { get; init; }
     [Required]
     public string Model { get; init; }
+    [Required]
     public DateOnly DateOfProduction { get; init; }
-    public int? NumberOfDoors { get; init; }
+    [Required]
+    public int NumberOfDoors { get; init; }
     [Required]
     public int EngineId { get; set; }
 }
