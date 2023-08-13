@@ -33,6 +33,9 @@ namespace CarRental.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseSequence(b.Property<int>("Id"));
 
+                    b.Property<int?>("ApplicationUserId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Brand")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -48,6 +51,8 @@ namespace CarRental.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("EngineId");
 
@@ -86,10 +91,26 @@ namespace CarRental.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            Displacement = 1.0,
+                            Displacement = 2000.0,
+                            FuelType = "Diesel",
+                            Horsepower = 150,
+                            Model = "1.9 TDI"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Displacement = 2200.0,
                             FuelType = "Gasoline",
-                            Horsepower = 1,
-                            Model = "TestEngine"
+                            Horsepower = 200,
+                            Model = "2.0 Turbo"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Displacement = 1000.0,
+                            FuelType = "Gasoline",
+                            Horsepower = 150,
+                            Model = "KAWASAKI Z1"
                         });
                 });
 
@@ -103,6 +124,9 @@ namespace CarRental.Infrastructure.Migrations
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("Birthday")
+                        .HasColumnType("date");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -317,9 +341,18 @@ namespace CarRental.Infrastructure.Migrations
                             Id = 1,
                             Brand = "Ford",
                             DateOfProduction = new DateTime(2019, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EngineId = 1,
+                            EngineId = 2,
                             Model = "Mondeo",
                             NumberOfDoors = 5
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Brand = "Volkswagen",
+                            DateOfProduction = new DateTime(2007, 4, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EngineId = 1,
+                            Model = "Golf",
+                            NumberOfDoors = 3
                         });
                 });
 
@@ -335,10 +368,10 @@ namespace CarRental.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 2,
+                            Id = 3,
                             Brand = "Kawasaki",
                             DateOfProduction = new DateTime(2016, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EngineId = 1,
+                            EngineId = 3,
                             Model = "Ninja",
                             NumberOfWheels = 2
                         });
@@ -346,6 +379,10 @@ namespace CarRental.Infrastructure.Migrations
 
             modelBuilder.Entity("CarRental.Domain.Common.Vehicle", b =>
                 {
+                    b.HasOne("CarRental.Infrastructure.Identity.Models.ApplicationUser", null)
+                        .WithMany("Vehicles")
+                        .HasForeignKey("ApplicationUserId");
+
                     b.HasOne("CarRental.Domain.Entities.Engine", "Engine")
                         .WithMany("Vehicles")
                         .HasForeignKey("EngineId")
@@ -407,6 +444,11 @@ namespace CarRental.Infrastructure.Migrations
                 });
 
             modelBuilder.Entity("CarRental.Domain.Entities.Engine", b =>
+                {
+                    b.Navigation("Vehicles");
+                });
+
+            modelBuilder.Entity("CarRental.Infrastructure.Identity.Models.ApplicationUser", b =>
                 {
                     b.Navigation("Vehicles");
                 });

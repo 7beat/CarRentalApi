@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace CarRental.Infrastructure.Migrations
 {
     /// <inheritdoc />
@@ -37,6 +39,7 @@ namespace CarRental.Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Birthday = table.Column<DateTime>(type: "date", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -188,11 +191,17 @@ namespace CarRental.Infrastructure.Migrations
                     Model = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DateOfProduction = table.Column<DateTime>(type: "date", nullable: false),
                     EngineId = table.Column<int>(type: "int", nullable: false),
+                    ApplicationUserId = table.Column<int>(type: "int", nullable: true),
                     NumberOfDoors = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Cars", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Cars_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Cars_Engines_EngineId",
                         column: x => x.EngineId,
@@ -210,11 +219,17 @@ namespace CarRental.Infrastructure.Migrations
                     Model = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DateOfProduction = table.Column<DateTime>(type: "date", nullable: false),
                     EngineId = table.Column<int>(type: "int", nullable: false),
+                    ApplicationUserId = table.Column<int>(type: "int", nullable: true),
                     NumberOfWheels = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Motorcycles", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Motorcycles_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Motorcycles_Engines_EngineId",
                         column: x => x.EngineId,
@@ -226,17 +241,26 @@ namespace CarRental.Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "Engines",
                 columns: new[] { "Id", "Displacement", "FuelType", "Horsepower", "Model" },
-                values: new object[] { 1, 1.0, "Gasoline", 1, "TestEngine" });
+                values: new object[,]
+                {
+                    { 1, 2000.0, "Diesel", 150, "1.9 TDI" },
+                    { 2, 2200.0, "Gasoline", 200, "2.0 Turbo" },
+                    { 3, 1000.0, "Gasoline", 150, "KAWASAKI Z1" }
+                });
 
             migrationBuilder.InsertData(
                 table: "Cars",
-                columns: new[] { "Id", "Brand", "DateOfProduction", "EngineId", "Model", "NumberOfDoors" },
-                values: new object[] { 1, "Ford", new DateTime(2019, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "Mondeo", 5 });
+                columns: new[] { "Id", "ApplicationUserId", "Brand", "DateOfProduction", "EngineId", "Model", "NumberOfDoors" },
+                values: new object[,]
+                {
+                    { 1, null, "Ford", new DateTime(2019, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, "Mondeo", 5 },
+                    { 2, null, "Volkswagen", new DateTime(2007, 4, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "Golf", 3 }
+                });
 
             migrationBuilder.InsertData(
                 table: "Motorcycles",
-                columns: new[] { "Id", "Brand", "DateOfProduction", "EngineId", "Model", "NumberOfWheels" },
-                values: new object[] { 2, "Kawasaki", new DateTime(2016, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "Ninja", 2 });
+                columns: new[] { "Id", "ApplicationUserId", "Brand", "DateOfProduction", "EngineId", "Model", "NumberOfWheels" },
+                values: new object[] { 3, null, "Kawasaki", new DateTime(2016, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 3, "Ninja", 2 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -278,9 +302,19 @@ namespace CarRental.Infrastructure.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Cars_ApplicationUserId",
+                table: "Cars",
+                column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Cars_EngineId",
                 table: "Cars",
                 column: "EngineId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Motorcycles_ApplicationUserId",
+                table: "Motorcycles",
+                column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Motorcycles_EngineId",
