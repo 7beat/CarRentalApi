@@ -1,30 +1,33 @@
 ﻿using CarRental.Application.Contracts.Persistence;
 using CarRental.Application.Contracts.Persistence.IRepositories;
 using CarRental.Infrastructure.Persistence.Data;
+using CarRental.Infrastructure.Persistence.Repositories;
 using CarRental.Persistence.Repositories;
 
 namespace CarRental.Persistence;
 public class UnitOfWork : IUnitOfWork
 {
     private bool _disposed = false;
-    private readonly ApplicationDbContext _dbContext;
+    private readonly ApplicationDbContext dbContext;
 
     private ICarRepository _carRepository;
     private IVehicleRepository _vehicleRepository;
+    private IMotorcycleRepository _motorcycleRepository;
 
-    public ICarRepository Car => _carRepository ??= new CarRepository(_dbContext);
-    public IVehicleRepository Vehicle => _vehicleRepository ??= new VehicleRepository(_dbContext);
+    public ICarRepository Car => _carRepository ??= new CarRepository(dbContext);
+    public IVehicleRepository Vehicle => _vehicleRepository ??= new VehicleRepository(dbContext);
+    public IMotorcycleRepository Motorcycles => _motorcycleRepository ??= new MotorcycleRepository(dbContext);
 
     public UnitOfWork(ApplicationDbContext dbContext)
     {
-        _dbContext = dbContext;
+        this.dbContext = dbContext;
     }
 
     protected virtual void Dispose(bool disposing)
     {
         if (!this._disposed && disposing)
         {
-            _dbContext.Dispose();
+            dbContext.Dispose();
         }
         this._disposed = true;
     }
@@ -37,6 +40,6 @@ public class UnitOfWork : IUnitOfWork
 
     public async Task<bool> SaveChangesAsync(CancellationToken cancellationToken)
     {
-        return await _dbContext.SaveChangesAsync(cancellationToken) > 0;
+        return await dbContext.SaveChangesAsync(cancellationToken) > 0;
     }
 }
