@@ -43,6 +43,7 @@ internal class VehiclesConfiguration : IEntityTypeConfiguration<Vehicle>
         builder.UseTpcMappingStrategy();
         builder.HasKey(v => v.Id);
         builder.HasOne(v => v.Engine).WithMany(e => e.Vehicles).HasForeignKey(v => v.EngineId);
+        builder.Navigation(v => v.Engine).AutoInclude();
     }
 }
 
