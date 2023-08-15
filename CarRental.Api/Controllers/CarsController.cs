@@ -1,4 +1,5 @@
-﻿using CarRental.Application.Features.Cars.Queries;
+﻿using CarRental.Application.Features.Cars.Commands;
+using CarRental.Application.Features.Cars.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,5 +28,12 @@ public class CarsController : ControllerBase
         var car = await mediator.Send(new GetSingleCarQuery(id));
 
         return car is null ? NotFound() : Ok(car);
+    }
+
+    [HttpPost("[action]")]
+    public async Task<IActionResult> Add([FromForm] AddCarCommand request)
+    {
+        var carId = await mediator.Send(request);
+        return Ok(carId);
     }
 }
