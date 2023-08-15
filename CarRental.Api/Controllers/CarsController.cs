@@ -20,4 +20,12 @@ public class CarsController : ControllerBase
 
         return result is null ? NoContent() : Ok(result);
     }
+
+    [HttpGet("[action]/{id:int}")]
+    public async Task<IActionResult> GetById(int id)
+    {
+        var car = await mediator.Send(new GetSingleCarQuery(id));
+
+        return car is null ? NotFound() : Ok(car);
+    }
 }
