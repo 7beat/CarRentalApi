@@ -42,6 +42,7 @@ internal class VehiclesConfiguration : IEntityTypeConfiguration<Vehicle>
     {
         builder.UseTpcMappingStrategy();
         builder.HasKey(v => v.Id);
+        builder.Property(v => v.Id).UseIdentityColumn();
         builder.HasOne(v => v.Engine).WithMany(e => e.Vehicles).HasForeignKey(v => v.EngineId);
         builder.Navigation(v => v.Engine).AutoInclude();
     }
@@ -59,14 +60,6 @@ internal class CarsConfiguration : IEntityTypeConfiguration<Car>
             DateOfProduction = new(2019, 05, 01),
             NumberOfDoors = 5,
             EngineId = 2,
-        }, new()
-        {
-            Id = 2,
-            Brand = "Volkswagen",
-            Model = "Golf",
-            DateOfProduction = new(2007, 04, 4),
-            NumberOfDoors = 3,
-            EngineId = 1
         });
     }
 }
@@ -77,7 +70,7 @@ internal class MotorcyclesConfiguration : IEntityTypeConfiguration<Motorcycle>
     {
         builder.HasData(new Motorcycle()
         {
-            Id = 3,
+            Id = 2,
             Brand = "Kawasaki",
             Model = "Ninja",
             DateOfProduction = new(2016, 03, 13),
