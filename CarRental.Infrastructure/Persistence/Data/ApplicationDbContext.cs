@@ -1,5 +1,4 @@
-﻿using CarRental.Domain.Common;
-using CarRental.Domain.Entities;
+﻿using CarRental.Domain.Entities;
 using CarRental.Infrastructure.Identity.Models;
 using CarRental.Utility.Converters;
 using Microsoft.AspNetCore.Identity;
@@ -15,7 +14,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
     }
 
     public DbSet<Engine> Engines { get; set; }
-    public DbSet<Vehicle> Vehicles { get; set; }
     public DbSet<Car> Cars { get; set; }
     public DbSet<Motorcycle> Motorcycles { get; set; }
 
