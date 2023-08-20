@@ -22,16 +22,13 @@ namespace CarRental.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.HasSequence("VehicleSequence");
-
             modelBuilder.Entity("CarRental.Domain.Common.Vehicle", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValueSql("NEXT VALUE FOR [VehicleSequence]");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseSequence(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("ApplicationUserId")
                         .HasColumnType("int");
@@ -344,15 +341,6 @@ namespace CarRental.Infrastructure.Migrations
                             EngineId = 2,
                             Model = "Mondeo",
                             NumberOfDoors = 5
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Brand = "Volkswagen",
-                            DateOfProduction = new DateTime(2007, 4, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EngineId = 1,
-                            Model = "Golf",
-                            NumberOfDoors = 3
                         });
                 });
 
@@ -368,7 +356,7 @@ namespace CarRental.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 3,
+                            Id = 2,
                             Brand = "Kawasaki",
                             DateOfProduction = new DateTime(2016, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EngineId = 3,

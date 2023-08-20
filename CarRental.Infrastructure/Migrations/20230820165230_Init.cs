@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -13,9 +12,6 @@ namespace CarRental.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateSequence(
-                name: "VehicleSequence");
-
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -186,7 +182,8 @@ namespace CarRental.Infrastructure.Migrations
                 name: "Cars",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false, defaultValueSql: "NEXT VALUE FOR [VehicleSequence]"),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Brand = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Model = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DateOfProduction = table.Column<DateTime>(type: "date", nullable: false),
@@ -214,7 +211,8 @@ namespace CarRental.Infrastructure.Migrations
                 name: "Motorcycles",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false, defaultValueSql: "NEXT VALUE FOR [VehicleSequence]"),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Brand = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Model = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DateOfProduction = table.Column<DateTime>(type: "date", nullable: false),
@@ -251,16 +249,12 @@ namespace CarRental.Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "Cars",
                 columns: new[] { "Id", "ApplicationUserId", "Brand", "DateOfProduction", "EngineId", "Model", "NumberOfDoors" },
-                values: new object[,]
-                {
-                    { 1, null, "Ford", new DateTime(2019, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, "Mondeo", 5 },
-                    { 2, null, "Volkswagen", new DateTime(2007, 4, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "Golf", 3 }
-                });
+                values: new object[] { 1, null, "Ford", new DateTime(2019, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, "Mondeo", 5 });
 
             migrationBuilder.InsertData(
                 table: "Motorcycles",
                 columns: new[] { "Id", "ApplicationUserId", "Brand", "DateOfProduction", "EngineId", "Model", "NumberOfWheels" },
-                values: new object[] { 3, null, "Kawasaki", new DateTime(2016, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 3, "Ninja", 2 });
+                values: new object[] { 1, null, "Kawasaki", new DateTime(2016, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 3, "Ninja", 2 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -354,9 +348,6 @@ namespace CarRental.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Engines");
-
-            migrationBuilder.DropSequence(
-                name: "VehicleSequence");
         }
     }
 }
