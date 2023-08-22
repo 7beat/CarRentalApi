@@ -36,4 +36,11 @@ public class CarsController : ControllerBase
         var carId = await mediator.Send(request);
         return Ok(carId);
     }
+
+    [HttpPut("[action]")]
+    public async Task<IActionResult> Update([FromForm] UpdateCarCommand request)
+    {
+        var car = await mediator.Send(request);
+        return car is null ? BadRequest() : Ok(car);
+    }
 }
