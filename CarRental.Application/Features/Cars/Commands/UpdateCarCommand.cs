@@ -26,9 +26,7 @@ internal class UpdateCarCommandHandler : IRequestHandler<UpdateCarCommand, Vehic
 
     public async Task<VehicleDto> Handle(UpdateCarCommand request, CancellationToken cancellationToken)
     {
-        var car = await unitOfWork.Car.FindSingleAsync(c => c.Id == request.Id, cancellationToken);
-
-        if (car is null)
+        var car = await unitOfWork.Car.FindSingleAsync(c => c.Id == request.Id, cancellationToken) ??
             throw new NotFoundException($"Resource with Id: {request.Id} was not found!");
 
         var carToUpdate = mapper.Map(request, car);
