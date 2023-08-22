@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CarRental.Application.Contracts.Persistence;
+using CarRental.Application.Exceptions;
 using CarRental.Application.Features.Vehicles;
 using MediatR;
 using System.ComponentModel.DataAnnotations;
@@ -28,7 +29,7 @@ internal class UpdateCarCommandHandler : IRequestHandler<UpdateCarCommand, Vehic
         var car = await unitOfWork.Car.FindSingleAsync(c => c.Id == request.Id, cancellationToken);
 
         if (car is null)
-            await Console.Out.WriteLineAsync("NotFoundException");
+            throw new NotFoundException($"Resource with Id: {request.Id} was not found!");
 
         var carToUpdate = mapper.Map(request, car);
 
