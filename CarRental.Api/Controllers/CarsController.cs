@@ -43,4 +43,11 @@ public class CarsController : ControllerBase
         var car = await mediator.Send(request);
         return car is null ? BadRequest() : Ok(car);
     }
+
+    [HttpDelete("[action]/{id:int}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var succeded = await mediator.Send(new DeleteCarCommand(id));
+        return succeded ? NoContent() : Ok(succeded);
+    }
 }
