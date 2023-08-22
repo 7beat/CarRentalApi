@@ -14,6 +14,6 @@ public class CarRepository : GenericRepository<Car>, ICarRepository
 
     public void Update(Car car)
     {
-        _dbContext.Update(car);
+        _dbContext.Cars.Update(car);
     }
 }
