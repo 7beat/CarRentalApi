@@ -35,6 +35,16 @@ public class ExceptionMiddleware : IMiddleware
                     Type = nameof(BadRequestException)
                 };
                 break;
+            case NotFoundException notFound:
+                statusCode = HttpStatusCode.NotFound;
+                problem = new()
+                {
+                    Title = notFound.Message,
+                    Status = (int)statusCode,
+                    Detail = notFound.InnerException?.Message,
+                    Type = nameof(BadRequestException)
+                };
+                break;
             case UnAuthorizedException unAuthorizedException:
                 statusCode = HttpStatusCode.Unauthorized;
                 problem = new()
