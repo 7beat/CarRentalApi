@@ -52,7 +52,7 @@ public class AuthService : IAuthService
             UserName = request.Username,
             FirstName = request.FirstName,
             LastName = request.LastName,
-            //Birthday = request.Birthday
+            Birthday = request.Birthday
         };
 
         var result = await userManager.CreateAsync(newUser, request.Password);
@@ -83,7 +83,7 @@ public class AuthService : IAuthService
     private SigningCredentials GetSigningCredentials()
     {
         var jwtConfig = configuration.GetSection("Jwt");
-        var key = Encoding.UTF8.GetBytes(jwtConfig["Key"]);
+        var key = Encoding.UTF8.GetBytes(jwtConfig["Key"]!);
         var secret = new SymmetricSecurityKey(key);
         return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
     }
