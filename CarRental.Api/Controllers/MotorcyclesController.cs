@@ -32,23 +32,23 @@ public class MotorcyclesController : ControllerBase
     }
 
     [HttpPost("[action]")]
-    public async Task<IActionResult> Add([FromForm] AddCarCommand request)
+    public async Task<IActionResult> Add([FromForm] AddMotorcycleCommand request)
     {
-        var carId = await mediator.Send(request);
-        return Ok(carId);
+        var motorcycleId = await mediator.Send(request);
+        return Ok(motorcycleId);
     }
 
     [HttpPut("[action]")]
-    public async Task<IActionResult> Update([FromForm] UpdateCarCommand request)
+    public async Task<IActionResult> Update([FromForm] UpdateMotorcycleCommand request)
     {
-        var car = await mediator.Send(request);
-        return car is null ? BadRequest() : Ok(car);
+        var motorcycle = await mediator.Send(request);
+        return motorcycle is null ? BadRequest() : Ok(motorcycle);
     }
 
     [HttpDelete("[action]/{id:int}")]
     public async Task<IActionResult> Delete(int id)
     {
-        var succeded = await mediator.Send(new DeleteCarCommand(id));
-        return succeded ? NoContent() : Ok(succeded);
+        var succeded = await mediator.Send(new DeleteMotorcycleCommand(id));
+        return succeded ? BadRequest() : NoContent();
     }
 }
