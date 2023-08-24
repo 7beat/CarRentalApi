@@ -27,9 +27,7 @@ public class AuthService : IAuthService
 
     public async Task<AuthResult> LoginAsync(LoginCommand request)
     {
-        user = await userManager.FindByEmailAsync(request.Email);
-
-        if (user is null)
+        user = await userManager.FindByEmailAsync(request.Email) ??
             throw new UnAuthorizedException("Wrong SignIn Credentials");
 
         if (!await userManager.CheckPasswordAsync(user, request.Password))
