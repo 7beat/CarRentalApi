@@ -45,7 +45,7 @@ public class MotorcyclesController : ControllerBase
         return motorcycle is null ? BadRequest() : Ok(motorcycle);
     }
 
-    [HttpDelete("[action]/{id:int}")]
+    [HttpDelete("[action]/{id:guid}")]
     public async Task<IActionResult> Delete(Guid id)
     {
         var succeded = await mediator.Send(new DeleteMotorcycleCommand(id));
