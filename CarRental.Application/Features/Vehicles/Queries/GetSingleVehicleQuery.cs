@@ -3,7 +3,7 @@ using CarRental.Application.Contracts.Persistence;
 using MediatR;
 
 namespace CarRental.Application.Features.Vehicles.Queries;
-public record GetSingleVehicleQuery(int Id) : IRequest<VehicleDto>;
+public record GetSingleVehicleQuery(Guid Id) : IRequest<VehicleDto>;
 
 internal class GetSingleVehicleQueryHandler : IRequestHandler<GetSingleVehicleQuery, VehicleDto>
 {

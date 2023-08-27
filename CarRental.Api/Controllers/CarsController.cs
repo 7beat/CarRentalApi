@@ -23,7 +23,7 @@ public class CarsController : ControllerBase
     }
 
     [HttpGet("[action]/{id:int}")]
-    public async Task<IActionResult> GetById(int id)
+    public async Task<IActionResult> GetById(Guid id)
     {
         var car = await mediator.Send(new GetSingleCarQuery(id));
 
@@ -45,7 +45,7 @@ public class CarsController : ControllerBase
     }
 
     [HttpDelete("[action]/{id:int}")]
-    public async Task<IActionResult> Delete(int id)
+    public async Task<IActionResult> Delete(Guid id)
     {
         var succeded = await mediator.Send(new DeleteCarCommand(id));
         return succeded ? NoContent() : Ok(succeded);

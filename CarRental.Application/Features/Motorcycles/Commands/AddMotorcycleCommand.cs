@@ -5,7 +5,7 @@ using MediatR;
 using System.ComponentModel.DataAnnotations;
 
 namespace CarRental.Application.Features.Cars.Commands;
-public record AddMotorcycleCommand : IRequest<int>
+public record AddMotorcycleCommand : IRequest<Guid>
 {
     [Required]
     public string Brand { get; init; }
@@ -19,7 +19,7 @@ public record AddMotorcycleCommand : IRequest<int>
     public int EngineId { get; set; }
 }
 
-internal class AddMotorcycleCommandHandler : IRequestHandler<AddMotorcycleCommand, int>
+internal class AddMotorcycleCommandHandler : IRequestHandler<AddMotorcycleCommand, Guid>
 {
     private readonly IUnitOfWork unitOfWork;
     private readonly IMapper mapper;
@@ -29,7 +29,7 @@ internal class AddMotorcycleCommandHandler : IRequestHandler<AddMotorcycleComman
         this.mapper = mapper;
     }
 
-    public async Task<int> Handle(AddMotorcycleCommand request, CancellationToken cancellationToken)
+    public async Task<Guid> Handle(AddMotorcycleCommand request, CancellationToken cancellationToken)
     {
         var motorcycle = mapper.Map<Motorcycle>(request);
 

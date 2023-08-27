@@ -13,21 +13,21 @@ internal class EnginesConfiguration : IEntityTypeConfiguration<Engine>
         builder.Property(e => e.FuelType).HasConversion<string>();
         builder.HasData(new Engine()
         {
-            Id = 1,
+            Id = Guid.Parse("25a79fdb-b76a-45bf-bc1b-e18487d51212"),
             Model = "1.9 TDI",
             Displacement = 2000,
             FuelType = FuelType.Diesel,
             Horsepower = 150
         }, new Engine()
         {
-            Id = 2,
+            Id = Guid.Parse("e449eae3-e5b5-41d6-b89f-fecfc0dc9676"),
             Model = "2.0 Turbo",
             Displacement = 2200,
             FuelType = FuelType.Gasoline,
             Horsepower = 200
         }, new Engine()
         {
-            Id = 3,
+            Id = Guid.Parse("5a6d7c68-b19b-4c82-94c5-43c084048092"),
             Model = "KAWASAKI Z1",
             Displacement = 1000,
             FuelType = FuelType.Gasoline,
@@ -42,7 +42,6 @@ internal class VehiclesConfiguration : IEntityTypeConfiguration<Vehicle>
     {
         builder.UseTpcMappingStrategy();
         builder.HasKey(v => v.Id);
-        builder.Property(v => v.Id).UseIdentityColumn();
         builder.HasOne(v => v.Engine).WithMany(e => e.Vehicles).HasForeignKey(v => v.EngineId);
         builder.Navigation(v => v.Engine).AutoInclude();
     }
@@ -54,12 +53,12 @@ internal class CarsConfiguration : IEntityTypeConfiguration<Car>
     {
         builder.HasData(new Car()
         {
-            Id = 1,
+            Id = Guid.NewGuid(),
             Brand = "Ford",
             Model = "Mondeo",
             DateOfProduction = new(2019, 05, 01),
             NumberOfDoors = 5,
-            EngineId = 2,
+            EngineId = Guid.Parse("e449eae3-e5b5-41d6-b89f-fecfc0dc9676"),
         });
     }
 }
@@ -70,12 +69,12 @@ internal class MotorcyclesConfiguration : IEntityTypeConfiguration<Motorcycle>
     {
         builder.HasData(new Motorcycle()
         {
-            Id = 2,
+            Id = Guid.NewGuid(),
             Brand = "Kawasaki",
             Model = "Ninja",
             DateOfProduction = new(2016, 03, 13),
             NumberOfWheels = 2,
-            EngineId = 3
+            EngineId = Guid.Parse("5a6d7c68-b19b-4c82-94c5-43c084048092")
         });
     }
 }

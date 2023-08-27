@@ -4,7 +4,7 @@ using CarRental.Application.Features.Vehicles;
 using MediatR;
 
 namespace CarRental.Application.Features.Cars.Queries;
-public record GetSingleMotorcycleQuery(int Id) : IRequest<VehicleDto>;
+public record GetSingleMotorcycleQuery(Guid Id) : IRequest<VehicleDto>;
 
 internal class GetSingleMotorcycleQueryHandler : IRequestHandler<GetSingleMotorcycleQuery, VehicleDto>
 {

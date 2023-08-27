@@ -17,7 +17,7 @@ public class VehicleRepository : GenericRepository<Vehicle>, IVehicleRepository
         throw new NotImplementedException();
     }
 
-    public async Task<Vehicle> FindSingleOfTypeAsync(int id, VehicleType vehicleType, CancellationToken cancellationToken)
+    public async Task<Vehicle> FindSingleOfTypeAsync(Guid id, VehicleType vehicleType, CancellationToken cancellationToken)
     {
         Vehicle? vehicle = null;
 

@@ -8,7 +8,7 @@ namespace CarRental.Application.Features.Vehicles.Queries;
 public record GetSingleVehicleOfTypeQuery : IRequest<VehicleDto>
 {
     [Required]
-    public int Id { get; set; }
+    public Guid Id { get; set; }
     [Required]
     public VehicleType VehicleType { get; set; }
 }

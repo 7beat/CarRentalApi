@@ -9,7 +9,7 @@ namespace CarRental.Application.Features.Cars.Commands;
 public record UpdateMotorcycleCommand : IRequest<VehicleDto>
 {
     [Required]
-    public int Id { get; set; }
+    public Guid Id { get; set; }
     public string? Brand { get; set; }
     public string? Model { get; set; }
 }

@@ -37,7 +37,7 @@ public static class InfrastructureServicesRegistration
 
     private static void ConfigureIdentity(this IServiceCollection services)
     {
-        var builder = services.AddIdentity<ApplicationUser, IdentityRole<int>>(o =>
+        var builder = services.AddIdentity<ApplicationUser, IdentityRole>(o =>
         {
             o.Password.RequireDigit = false;
             o.Password.RequireUppercase = false;
