@@ -18,7 +18,7 @@ internal class GetAllCarsQueryHandler : IRequestHandler<GetAllCarsQuery, IEnumer
 
     public async Task<IEnumerable<VehicleDto>> Handle(GetAllCarsQuery request, CancellationToken cancellationToken)
     {
-        var cars = await unitOfWork.Car.FindAllAsync(cancellationToken);
+        var cars = await unitOfWork.Cars.FindAllAsync(cancellationToken);
         return mapper.Map<IEnumerable<VehicleDto>>(cars);
     }
 }

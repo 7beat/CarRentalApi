@@ -18,7 +18,7 @@ internal class GetSingleCarQueryHandler : IRequestHandler<GetSingleCarQuery, Veh
 
     public async Task<VehicleDto> Handle(GetSingleCarQuery request, CancellationToken cancellationToken)
     {
-        var car = await unitOfWork.Car.FindSingleAsync(c => c.Id == request.Id, cancellationToken);
+        var car = await unitOfWork.Cars.FindSingleAsync(c => c.Id == request.Id, cancellationToken);
         return mapper.Map<VehicleDto>(car);
     }
 }

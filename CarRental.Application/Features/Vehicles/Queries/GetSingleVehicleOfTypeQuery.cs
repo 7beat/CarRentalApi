@@ -25,6 +25,6 @@ internal class GetSingleVehicleOfTypeQueryHandler : IRequestHandler<GetSingleVeh
 
     public async Task<VehicleDto> Handle(GetSingleVehicleOfTypeQuery request, CancellationToken cancellationToken)
     {
-        return mapper.Map<VehicleDto>(await unitOfWork.Vehicle.FindSingleOfTypeAsync(request.Id, request.VehicleType, cancellationToken));
+        return mapper.Map<VehicleDto>(await unitOfWork.Vehicles.FindSingleOfTypeAsync(request.Id, request.VehicleType, cancellationToken));
     }
 }

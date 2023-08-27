@@ -33,7 +33,7 @@ internal class AddCarCommandHandler : IRequestHandler<AddCarCommand, Guid>
     {
         var car = mapper.Map<Car>(request);
 
-        car = await unitOfWork.Car.CreateAsync(car, cancellationToken);
+        car = await unitOfWork.Cars.CreateAsync(car, cancellationToken);
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
         return car.Id;
