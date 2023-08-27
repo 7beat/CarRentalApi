@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -16,8 +17,7 @@ namespace CarRental.Infrastructure.Migrations
                 name: "AspNetRoles",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -31,8 +31,7 @@ namespace CarRental.Infrastructure.Migrations
                 name: "AspNetUsers",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Birthday = table.Column<DateTime>(type: "date", nullable: false),
@@ -60,8 +59,7 @@ namespace CarRental.Infrastructure.Migrations
                 name: "Engines",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Model = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Horsepower = table.Column<int>(type: "int", nullable: false),
                     Displacement = table.Column<double>(type: "float", nullable: false),
@@ -78,7 +76,7 @@ namespace CarRental.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleId = table.Column<int>(type: "int", nullable: false),
+                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -99,7 +97,7 @@ namespace CarRental.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -121,7 +119,7 @@ namespace CarRental.Infrastructure.Migrations
                     LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<int>(type: "int", nullable: false)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -138,8 +136,8 @@ namespace CarRental.Infrastructure.Migrations
                 name: "AspNetUserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    RoleId = table.Column<int>(type: "int", nullable: false)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -162,7 +160,7 @@ namespace CarRental.Infrastructure.Migrations
                 name: "AspNetUserTokens",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -182,13 +180,12 @@ namespace CarRental.Infrastructure.Migrations
                 name: "Cars",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Brand = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Model = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DateOfProduction = table.Column<DateTime>(type: "date", nullable: false),
-                    EngineId = table.Column<int>(type: "int", nullable: false),
-                    ApplicationUserId = table.Column<int>(type: "int", nullable: true),
+                    EngineId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     NumberOfDoors = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -211,13 +208,12 @@ namespace CarRental.Infrastructure.Migrations
                 name: "Motorcycles",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Brand = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Model = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DateOfProduction = table.Column<DateTime>(type: "date", nullable: false),
-                    EngineId = table.Column<int>(type: "int", nullable: false),
-                    ApplicationUserId = table.Column<int>(type: "int", nullable: true),
+                    EngineId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     NumberOfWheels = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -241,20 +237,20 @@ namespace CarRental.Infrastructure.Migrations
                 columns: new[] { "Id", "Displacement", "FuelType", "Horsepower", "Model" },
                 values: new object[,]
                 {
-                    { 1, 2000.0, "Diesel", 150, "1.9 TDI" },
-                    { 2, 2200.0, "Gasoline", 200, "2.0 Turbo" },
-                    { 3, 1000.0, "Gasoline", 150, "KAWASAKI Z1" }
+                    { new Guid("25a79fdb-b76a-45bf-bc1b-e18487d51212"), 2000.0, "Diesel", 150, "1.9 TDI" },
+                    { new Guid("5a6d7c68-b19b-4c82-94c5-43c084048092"), 1000.0, "Gasoline", 150, "KAWASAKI Z1" },
+                    { new Guid("e449eae3-e5b5-41d6-b89f-fecfc0dc9676"), 2200.0, "Gasoline", 200, "2.0 Turbo" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Cars",
                 columns: new[] { "Id", "ApplicationUserId", "Brand", "DateOfProduction", "EngineId", "Model", "NumberOfDoors" },
-                values: new object[] { 1, null, "Ford", new DateTime(2019, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, "Mondeo", 5 });
+                values: new object[] { new Guid("5d126edc-4b47-4b46-8b92-685109917844"), null, "Ford", new DateTime(2019, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("e449eae3-e5b5-41d6-b89f-fecfc0dc9676"), "Mondeo", 5 });
 
             migrationBuilder.InsertData(
                 table: "Motorcycles",
                 columns: new[] { "Id", "ApplicationUserId", "Brand", "DateOfProduction", "EngineId", "Model", "NumberOfWheels" },
-                values: new object[] { 1, null, "Kawasaki", new DateTime(2016, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 3, "Ninja", 2 });
+                values: new object[] { new Guid("1fde6e67-f03b-4dac-acdc-c62ad2f59a49"), null, "Kawasaki", new DateTime(2016, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("5a6d7c68-b19b-4c82-94c5-43c084048092"), "Ninja", 2 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

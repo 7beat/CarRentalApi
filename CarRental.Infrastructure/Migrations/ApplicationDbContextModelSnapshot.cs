@@ -24,14 +24,12 @@ namespace CarRental.Infrastructure.Migrations
 
             modelBuilder.Entity("CarRental.Domain.Common.Vehicle", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("ApplicationUserId")
-                        .HasColumnType("int");
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Brand")
                         .IsRequired()
@@ -40,8 +38,8 @@ namespace CarRental.Infrastructure.Migrations
                     b.Property<DateTime>("DateOfProduction")
                         .HasColumnType("date");
 
-                    b.Property<int>("EngineId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("EngineId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Model")
                         .IsRequired()
@@ -60,11 +58,9 @@ namespace CarRental.Infrastructure.Migrations
 
             modelBuilder.Entity("CarRental.Domain.Entities.Engine", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<double>("Displacement")
                         .HasColumnType("float");
@@ -87,7 +83,7 @@ namespace CarRental.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = new Guid("25a79fdb-b76a-45bf-bc1b-e18487d51212"),
                             Displacement = 2000.0,
                             FuelType = "Diesel",
                             Horsepower = 150,
@@ -95,7 +91,7 @@ namespace CarRental.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = 2,
+                            Id = new Guid("e449eae3-e5b5-41d6-b89f-fecfc0dc9676"),
                             Displacement = 2200.0,
                             FuelType = "Gasoline",
                             Horsepower = 200,
@@ -103,7 +99,7 @@ namespace CarRental.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = 3,
+                            Id = new Guid("5a6d7c68-b19b-4c82-94c5-43c084048092"),
                             Displacement = 1000.0,
                             FuelType = "Gasoline",
                             Horsepower = 150,
@@ -113,11 +109,8 @@ namespace CarRental.Infrastructure.Migrations
 
             modelBuilder.Entity("CarRental.Infrastructure.Identity.Models.ApplicationUser", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
@@ -190,13 +183,10 @@ namespace CarRental.Infrastructure.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -220,7 +210,7 @@ namespace CarRental.Infrastructure.Migrations
                     b.ToTable("AspNetRoles", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -234,8 +224,9 @@ namespace CarRental.Infrastructure.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
+                    b.Property<string>("RoleId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -244,7 +235,7 @@ namespace CarRental.Infrastructure.Migrations
                     b.ToTable("AspNetRoleClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -258,8 +249,9 @@ namespace CarRental.Infrastructure.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -268,7 +260,7 @@ namespace CarRental.Infrastructure.Migrations
                     b.ToTable("AspNetUserClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
                         .HasColumnType("nvarchar(450)");
@@ -279,8 +271,9 @@ namespace CarRental.Infrastructure.Migrations
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -289,13 +282,13 @@ namespace CarRental.Infrastructure.Migrations
                     b.ToTable("AspNetUserLogins", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -304,10 +297,10 @@ namespace CarRental.Infrastructure.Migrations
                     b.ToTable("AspNetUserRoles", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
                         .HasColumnType("nvarchar(450)");
@@ -335,10 +328,10 @@ namespace CarRental.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = new Guid("5d126edc-4b47-4b46-8b92-685109917844"),
                             Brand = "Ford",
                             DateOfProduction = new DateTime(2019, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EngineId = 2,
+                            EngineId = new Guid("e449eae3-e5b5-41d6-b89f-fecfc0dc9676"),
                             Model = "Mondeo",
                             NumberOfDoors = 5
                         });
@@ -356,10 +349,10 @@ namespace CarRental.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 2,
+                            Id = new Guid("1fde6e67-f03b-4dac-acdc-c62ad2f59a49"),
                             Brand = "Kawasaki",
                             DateOfProduction = new DateTime(2016, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EngineId = 3,
+                            EngineId = new Guid("5a6d7c68-b19b-4c82-94c5-43c084048092"),
                             Model = "Ninja",
                             NumberOfWheels = 2
                         });
@@ -380,16 +373,16 @@ namespace CarRental.Infrastructure.Migrations
                     b.Navigation("Engine");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<int>", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
                     b.HasOne("CarRental.Infrastructure.Identity.Models.ApplicationUser", null)
                         .WithMany()
@@ -398,7 +391,7 @@ namespace CarRental.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.HasOne("CarRental.Infrastructure.Identity.Models.ApplicationUser", null)
                         .WithMany()
@@ -407,9 +400,9 @@ namespace CarRental.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<int>", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -422,7 +415,7 @@ namespace CarRental.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
                     b.HasOne("CarRental.Infrastructure.Identity.Models.ApplicationUser", null)
                         .WithMany()
