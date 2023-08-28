@@ -1,4 +1,5 @@
 ﻿using CarRental.Application.Features.Vehicles.Queries;
+using CarRental.Domain.Common;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -20,5 +21,12 @@ public class VehiclesController : ControllerBase
     {
         var result = await mediator.Send(new GetAllVehiclesQuery());
         return result is null ? NoContent() : Ok(result);
+    }
+
+    [HttpGet("[action]/{vehicleType}")]
+    public async Task<IActionResult> GetAllOfType([FromRoute] VehicleType vehicleType)
+    {
+        var t = await mediator.Send(new GetAllVehiclesOfTypeQuery(vehicleType));
+        return Ok(t);
     }
 }
