@@ -50,13 +50,14 @@ public class AuthService : IAuthService
             UserName = request.Username,
             FirstName = request.FirstName,
             LastName = request.LastName,
-            Birthday = request.Birthday
+            Birthday = request.Birthday,
+            EmailConfirmed = true
         };
 
         var result = await userManager.CreateAsync(newUser, request.Password);
 
         if (!result.Succeeded)
-            throw new BadRequestException("Could not Register");
+            throw new BadRequestException("Could not register User");
 
         await userManager.AddToRoleAsync(newUser, "User");
         user = newUser;
