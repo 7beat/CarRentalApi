@@ -30,7 +30,7 @@ public static class IdentityDataSeed
         await EnsureRole(serviceProvider, normalUser, "User");
     }
 
-    private static async Task<int> EnsureUser(
+    private static async Task<string> EnsureUser(
     IServiceProvider serviceProvider,
     string userName, string initPw)
     {
@@ -60,9 +60,9 @@ public static class IdentityDataSeed
     }
 
     private static async Task<IdentityResult> EnsureRole(
-        IServiceProvider serviceProvider, int uid, string role)
+        IServiceProvider serviceProvider, string uid, string role)
     {
-        var roleManager = serviceProvider.GetService<RoleManager<IdentityRole<int>>>();
+        var roleManager = serviceProvider.GetService<RoleManager<IdentityRole>>();
 
         IdentityResult ir;
 

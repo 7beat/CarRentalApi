@@ -8,6 +8,6 @@ public abstract class Vehicle : EntityBase
     public DateOnly DateOfProduction { get; set; }
     public abstract VehicleType VehicleType { get; }
 
-    public int EngineId { get; set; }
+    public Guid EngineId { get; set; }
     public Engine Engine { get; set; }
 }

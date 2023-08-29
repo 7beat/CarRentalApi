@@ -3,7 +3,7 @@
 namespace CarRental.Application.Features.Vehicles;
 public record VehicleDto
 {
-    public int Id { get; init; }
+    public Guid Id { get; init; }
     public string Brand { get; init; }
     public string Model { get; init; }
     public DateOnly DateOfProduction { get; init; }

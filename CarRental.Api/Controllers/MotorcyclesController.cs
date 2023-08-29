@@ -24,7 +24,7 @@ public class MotorcyclesController : ControllerBase
     }
 
     [HttpGet("[action]/{id:int}")]
-    public async Task<IActionResult> GetById(int id)
+    public async Task<IActionResult> GetById(Guid id)
     {
         var car = await mediator.Send(new GetSingleMotorcycleQuery(id));
 
@@ -45,8 +45,8 @@ public class MotorcyclesController : ControllerBase
         return motorcycle is null ? BadRequest() : Ok(motorcycle);
     }
 
-    [HttpDelete("[action]/{id:int}")]
-    public async Task<IActionResult> Delete(int id)
+    [HttpDelete("[action]/{id:guid}")]
+    public async Task<IActionResult> Delete(Guid id)
     {
         var succeded = await mediator.Send(new DeleteMotorcycleCommand(id));
         return succeded ? BadRequest() : NoContent();

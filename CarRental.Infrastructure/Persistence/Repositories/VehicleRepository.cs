@@ -1,38 +1,24 @@
 ﻿using CarRental.Application.Contracts.Persistence.IRepositories;
 using CarRental.Domain.Common;
 using CarRental.Infrastructure.Persistence.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarRental.Persistence.Repositories;
 public class VehicleRepository : GenericRepository<Vehicle>, IVehicleRepository
 {
-    private ApplicationDbContext _dbContext;
+    private readonly ApplicationDbContext dbContext;
 
     public VehicleRepository(ApplicationDbContext dbContext) : base(dbContext)
     {
-        _dbContext = dbContext;
+        this.dbContext = dbContext;
     }
 
     public async Task<IEnumerable<Vehicle>> FindAllOfTypeAsync(VehicleType vehicleType, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
-    }
-
-    public async Task<Vehicle> FindSingleOfTypeAsync(int id, VehicleType vehicleType, CancellationToken cancellationToken)
-    {
-        Vehicle? vehicle = null;
-
-        switch (vehicleType)
+        return vehicleType switch
         {
-            case VehicleType.Car:
-                vehicle = await _dbContext.Cars.FindAsync(id, cancellationToken);
-                break;
-            case VehicleType.Motorcycle:
-                vehicle = await _dbContext.Motorcycles.FindAsync(id, cancellationToken);
-                break;
-            default:
-                break;
-        }
-
-        return vehicle;
+            VehicleType.Car => await dbContext.Cars.ToListAsync(cancellationToken),
+            VehicleType.Motorcycle => await dbContext.Motorcycles.ToListAsync(cancellationToken),
+        };
     }
 }

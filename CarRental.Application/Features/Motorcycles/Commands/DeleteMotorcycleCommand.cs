@@ -4,7 +4,7 @@ using CarRental.Application.Exceptions;
 using MediatR;
 
 namespace CarRental.Application.Features.Cars.Commands;
-public record DeleteMotorcycleCommand(int Id) : IRequest<bool>;
+public record DeleteMotorcycleCommand(Guid Id) : IRequest<bool>;
 
 internal class DeleteMotorcycleCommandHandler : IRequestHandler<DeleteCarCommand, bool>
 {

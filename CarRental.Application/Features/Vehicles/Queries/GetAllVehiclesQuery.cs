@@ -17,6 +17,6 @@ internal class GetAllVehiclesQueryHandler : IRequestHandler<GetAllVehiclesQuery,
 
     public async Task<IEnumerable<VehicleDto>> Handle(GetAllVehiclesQuery request, CancellationToken cancellationToken)
     {
-        return _mapper.Map<IEnumerable<VehicleDto>>(await _unitOfWork.Vehicle.FindAllAsync(cancellationToken));
+        return _mapper.Map<IEnumerable<VehicleDto>>(await _unitOfWork.Vehicles.FindAllAsync(cancellationToken));
     }
 }

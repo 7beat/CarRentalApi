@@ -3,7 +3,7 @@ using CarRental.Application.Contracts.Persistence;
 using MediatR;
 
 namespace CarRental.Application.Features.Vehicles.Queries;
-public record GetSingleVehicleQuery(int Id) : IRequest<VehicleDto>;
+public record GetSingleVehicleQuery(Guid Id) : IRequest<VehicleDto>;
 
 internal class GetSingleVehicleQueryHandler : IRequestHandler<GetSingleVehicleQuery, VehicleDto>
 {
@@ -17,7 +17,7 @@ internal class GetSingleVehicleQueryHandler : IRequestHandler<GetSingleVehicleQu
 
     public async Task<VehicleDto> Handle(GetSingleVehicleQuery request, CancellationToken cancellationToken)
     {
-        var vehicle = await _unitOfWork.Vehicle.FindSingleAsync(v => v.Id == request.Id, cancellationToken);
+        var vehicle = await _unitOfWork.Vehicles.FindSingleAsync(v => v.Id == request.Id, cancellationToken);
         return _mapper.Map<VehicleDto>(vehicle);
     }
 }

@@ -14,8 +14,8 @@ public class UnitOfWork : IUnitOfWork
     private IVehicleRepository _vehicleRepository;
     private IMotorcycleRepository _motorcycleRepository;
 
-    public ICarRepository Car => _carRepository ??= new CarRepository(dbContext);
-    public IVehicleRepository Vehicle => _vehicleRepository ??= new VehicleRepository(dbContext);
+    public ICarRepository Cars => _carRepository ??= new CarRepository(dbContext);
+    public IVehicleRepository Vehicles => _vehicleRepository ??= new VehicleRepository(dbContext);
     public IMotorcycleRepository Motorcycles => _motorcycleRepository ??= new MotorcycleRepository(dbContext);
 
     public UnitOfWork(ApplicationDbContext dbContext)

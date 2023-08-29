@@ -4,7 +4,7 @@ using CarRental.Application.Exceptions;
 using MediatR;
 
 namespace CarRental.Application.Features.Cars.Commands;
-public record DeleteCarCommand(int Id) : IRequest<bool>;
+public record DeleteCarCommand(Guid Id) : IRequest<bool>;
 
 internal class DeleteCarCommandHandler : IRequestHandler<DeleteCarCommand, bool>
 {
@@ -18,10 +18,10 @@ internal class DeleteCarCommandHandler : IRequestHandler<DeleteCarCommand, bool>
 
     public async Task<bool> Handle(DeleteCarCommand request, CancellationToken cancellationToken)
     {
-        var car = await unitOfWork.Car.FindSingleAsync(c => c.Id == request.Id, cancellationToken) ??
+        var car = await unitOfWork.Cars.FindSingleAsync(c => c.Id == request.Id, cancellationToken) ??
             throw new NotFoundException($"Resource with Id: {request.Id} was not found!");
 
-        unitOfWork.Car.Remove(car);
+        unitOfWork.Cars.Remove(car);
         return await unitOfWork.SaveChangesAsync(cancellationToken);
     }
 }
