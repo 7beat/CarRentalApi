@@ -1,5 +1,5 @@
 ﻿namespace CarRental.Application.Features.Rentals;
-internal class RentalDto
+public class RentalDto
 {
     public DateOnly StartDate { get; set; }
     public DateOnly EndDate { get; set; }
