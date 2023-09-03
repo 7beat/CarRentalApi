@@ -23,6 +23,14 @@ public class RentalsController : ControllerBase
         return result.Any() ? Ok(result) : BadRequest();
     }
 
+    [HttpGet("{id:guid}")]
+    public async Task<IActionResult> GetById(Guid id)
+    {
+        var result = await mediator.Send(new GetSingleRentalQuery(id));
+
+        return result is null ? BadRequest() : Ok(result);
+    }
+
     [HttpPost]
     public async Task<IActionResult> Add([FromForm] AddRentalCommand request)
     {
