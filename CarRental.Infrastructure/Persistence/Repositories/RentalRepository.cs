@@ -22,10 +22,10 @@ public class RentalRepository : GenericRepository<Rental>, IRentalRepository
 
     public async Task<RentalDto> GetWithUserDetails(Guid id)
     {
-        var rental = await dbContext.Rentals.FindAsync(id) ??
+        var rental = await dbContext.Rentals.Include(r => r.Vehicle).FirstOrDefaultAsync(r => r.Id == id) ??
             throw new BadRequestException("Replace with NotFoundException!");
 
-        var user = await userManager.FindByIdAsync("38bfad0a-a6f4-4cbf-828f-d5155bb5d5e9") ??
+        var user = await userManager.FindByIdAsync(rental.UserId.ToString()) ??
             throw new BadRequestException("Replace with NotFoundException!");
 
         return new()
