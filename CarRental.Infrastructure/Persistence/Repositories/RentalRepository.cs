@@ -6,6 +6,7 @@ using CarRental.Infrastructure.Identity.Models;
 using CarRental.Infrastructure.Persistence.Data;
 using CarRental.Persistence.Repositories;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarRental.Infrastructure.Persistence.Repositories;
 public class RentalRepository : GenericRepository<Rental>, IRentalRepository
@@ -36,8 +37,27 @@ public class RentalRepository : GenericRepository<Rental>, IRentalRepository
         };
     }
 
-    public async Task<IEnumerable<RentalDto>> GetAllWithUserDetails(Guid id)
+    public async Task<IEnumerable<RentalDto>> GetAllWithUserDetails()
     {
-        throw new NotImplementedException();
+        var rentals = await dbContext.Rentals.Include(r => r.Vehicle).ToListAsync();
+
+        var rentalsDto = new List<RentalDto>();
+
+        foreach (var rental in rentals)
+        {
+            var user = await userManager.FindByIdAsync(rental.UserId.ToString()) ??
+                throw new BadRequestException("Error");
+
+            rentalsDto.Add(new()
+            {
+                StartDate = rental.StartDate,
+                EndDate = rental.EndDate,
+                UserName = user.UserName!,
+                VehicleName = $"{rental.Vehicle.Brand} {rental.Vehicle.Model}"
+            });
+
+        }
+
+        return rentalsDto;
     }
 }
