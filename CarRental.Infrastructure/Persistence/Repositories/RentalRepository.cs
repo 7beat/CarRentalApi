@@ -35,4 +35,9 @@ public class RentalRepository : GenericRepository<Rental>, IRentalRepository
             UserName = user.UserName!
         };
     }
+
+    public async Task<IEnumerable<RentalDto>> GetAllWithUserDetails(Guid id)
+    {
+        throw new NotImplementedException();
+    }
 }
