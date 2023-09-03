@@ -18,7 +18,7 @@ internal class GetAllRentalsQueryHandler : IRequestHandler<GetAllRentalsQuery, I
 
     public async Task<IEnumerable<RentalDto>> Handle(GetAllRentalsQuery request, CancellationToken cancellationToken)
     {
-        var rentals = await rentalRepository.FindAllAsync(cancellationToken);
+        var rentals = await rentalRepository.GetAllWithUserDetails();
 
         return mapper.Map<IEnumerable<RentalDto>>(rentals);
     }
