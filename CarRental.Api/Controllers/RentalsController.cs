@@ -20,7 +20,7 @@ public class RentalsController : ControllerBase
     {
         var result = await mediator.Send(new GetAllRentalsQuery());
 
-        return result.Any() ? Ok(result) : BadRequest();
+        return result.Any() ? Ok(result) : NoContent();
     }
 
     [HttpGet("{id:guid}")]
@@ -28,13 +28,20 @@ public class RentalsController : ControllerBase
     {
         var result = await mediator.Send(new GetSingleRentalQuery(id));
 
-        return result is null ? BadRequest() : Ok(result);
+        return result is null ? NotFound() : Ok(result);
     }
 
     [HttpPost]
     public async Task<IActionResult> Add([FromForm] AddRentalCommand request)
     {
         var result = await mediator.Send(request);
-        return Ok();
+        return StatusCode(StatusCodes.Status201Created);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Update([FromForm] UpdateRentalCommand request)
+    {
+        var result = await mediator.Send(request);
+        return CreatedAtAction(nameof(GetById), new { id = request.Id }, result);
     }
 }
