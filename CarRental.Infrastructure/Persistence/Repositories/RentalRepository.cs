@@ -23,17 +23,17 @@ public class RentalRepository : GenericRepository<Rental>, IRentalRepository
     public async Task<RentalDto> GetWithUserDetails(Guid id)
     {
         var rental = await dbContext.Rentals.Include(r => r.Vehicle).FirstOrDefaultAsync(r => r.Id == id) ??
-            throw new BadRequestException("Replace with NotFoundException!");
+            throw new NotFoundException($"Rental with Id: \"{id}\" was not found");
 
         var user = await userManager.FindByIdAsync(rental.UserId.ToString()) ??
-            throw new BadRequestException("Replace with NotFoundException!");
+            throw new NotFoundException($"User with Id: \"{rental.UserId}\" was not found");
 
         return new()
         {
             StartDate = rental.StartDate,
             EndDate = rental.EndDate,
-            VehicleName = $"{rental.Vehicle.Brand} {rental.Vehicle.Model}",
-            UserName = user.UserName!
+            UserName = user.UserName!,
+            VehicleName = $"{rental.Vehicle.Brand} {rental.Vehicle.Model}"
         };
     }
 
@@ -46,7 +46,7 @@ public class RentalRepository : GenericRepository<Rental>, IRentalRepository
         foreach (var rental in rentals)
         {
             var user = await userManager.FindByIdAsync(rental.UserId.ToString()) ??
-                throw new BadRequestException("Error");
+                throw new NotFoundException($"User with Id: \"{rental.UserId}\" was not found");
 
             rentalsDto.Add(new()
             {
