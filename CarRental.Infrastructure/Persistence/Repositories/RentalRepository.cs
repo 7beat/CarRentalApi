@@ -60,4 +60,9 @@ public class RentalRepository : GenericRepository<Rental>, IRentalRepository
 
         return rentalsDto;
     }
+
+    public void Update(Rental rental)
+    {
+        dbContext.Update(rental);
+    }
 }
