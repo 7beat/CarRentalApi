@@ -12,5 +12,8 @@ internal class RentalProfiles : Profile
             .ReverseMap();
 
         CreateMap<AddRentalCommand, Rental>();
+
+        CreateMap<UpdateRentalCommand, Rental>()
+            .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember is not null));
     }
 }
