@@ -61,8 +61,18 @@ public class RentalRepository : GenericRepository<Rental>, IRentalRepository
         return rentalsDto;
     }
 
-    public void Update(Rental rental)
+    public async Task UpdateAsync(Rental rental)
     {
+        bool isOverlap = await dbContext.Rentals
+            .Where(r => r.VehicleId == rental.VehicleId)
+            .AnyAsync(r =>
+            (rental.StartDate >= r.StartDate && rental.StartDate <= r.EndDate) ||
+            (rental.EndDate >= r.StartDate && rental.EndDate <= r.EndDate) ||
+            (rental.StartDate <= r.StartDate && rental.EndDate >= r.EndDate));
+
+        if (isOverlap)
+            throw new BadRequestException("Dates for new Rental are colliding with existing one!");
+
         dbContext.Update(rental);
     }
 }
