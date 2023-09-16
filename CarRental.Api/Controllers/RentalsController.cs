@@ -38,10 +38,10 @@ public class RentalsController : ControllerBase
         return StatusCode(StatusCodes.Status201Created);
     }
 
-    [HttpPost]
+    [HttpPut]
     public async Task<IActionResult> Update([FromForm] UpdateRentalCommand request)
     {
         var result = await mediator.Send(request);
-        return CreatedAtAction(nameof(GetById), new { id = request.Id }, result);
+        return result is null ? BadRequest() : Ok(result);
     }
 }
