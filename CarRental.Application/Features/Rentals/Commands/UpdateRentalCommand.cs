@@ -37,6 +37,6 @@ internal class UpdateRentalCommandHandler : IRequestHandler<UpdateRentalCommand,
         await repository.UpdateAsync(rental);
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return mapper.Map<RentalDto>(rental);
+        return mapper.Map<RentalDto>(await repository.GetWithUserDetails(rental.Id));
     }
 }
