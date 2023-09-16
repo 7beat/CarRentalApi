@@ -2,10 +2,12 @@
 using CarRental.Application.Features.Rentals.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace CarRental.Api.Controllers;
 [ApiController]
 [Route("api/[controller]/[action]")]
+[SwaggerTag("Displaying and Managing Rentals")]
 public class RentalsController : ControllerBase
 {
     private readonly IMediator mediator;

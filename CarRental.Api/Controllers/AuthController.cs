@@ -1,10 +1,12 @@
 ﻿using CarRental.Application.Features.Auth.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace CarRental.Api.Controllers;
 [ApiController]
 [Route("api/[controller]/[action]")]
+[SwaggerTag("User Authentication and Registering")]
 public class AuthController : ControllerBase
 {
     private readonly IMediator mediator;
