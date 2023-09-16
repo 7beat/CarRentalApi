@@ -42,7 +42,7 @@ public class ExceptionMiddleware : IMiddleware
                     Title = notFound.Message,
                     Status = (int)statusCode,
                     Detail = notFound.InnerException?.Message,
-                    Type = nameof(BadRequestException)
+                    Type = nameof(NotFoundException)
                 };
                 break;
             case UnAuthorizedException unAuthorizedException:

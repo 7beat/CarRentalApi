@@ -71,6 +71,21 @@ namespace CarRental.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Rentals",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "date", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "date", nullable: false),
+                    VehicleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Rentals", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -245,12 +260,12 @@ namespace CarRental.Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "Cars",
                 columns: new[] { "Id", "ApplicationUserId", "Brand", "DateOfProduction", "EngineId", "Model", "NumberOfDoors" },
-                values: new object[] { new Guid("5d126edc-4b47-4b46-8b92-685109917844"), null, "Ford", new DateTime(2019, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("e449eae3-e5b5-41d6-b89f-fecfc0dc9676"), "Mondeo", 5 });
+                values: new object[] { new Guid("7ee6a395-7d7a-45ff-ae3b-d92e964c3cc6"), null, "Ford", new DateTime(2019, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("e449eae3-e5b5-41d6-b89f-fecfc0dc9676"), "Mondeo", 5 });
 
             migrationBuilder.InsertData(
                 table: "Motorcycles",
                 columns: new[] { "Id", "ApplicationUserId", "Brand", "DateOfProduction", "EngineId", "Model", "NumberOfWheels" },
-                values: new object[] { new Guid("1fde6e67-f03b-4dac-acdc-c62ad2f59a49"), null, "Kawasaki", new DateTime(2016, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("5a6d7c68-b19b-4c82-94c5-43c084048092"), "Ninja", 2 });
+                values: new object[] { new Guid("df73853b-7241-4839-b00a-95d26c794d26"), null, "Kawasaki", new DateTime(2016, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("5a6d7c68-b19b-4c82-94c5-43c084048092"), "Ninja", 2 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -310,6 +325,11 @@ namespace CarRental.Infrastructure.Migrations
                 name: "IX_Motorcycles_EngineId",
                 table: "Motorcycles",
                 column: "EngineId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Rentals_VehicleId",
+                table: "Rentals",
+                column: "VehicleId");
         }
 
         /// <inheritdoc />
@@ -335,6 +355,9 @@ namespace CarRental.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Motorcycles");
+
+            migrationBuilder.DropTable(
+                name: "Rentals");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

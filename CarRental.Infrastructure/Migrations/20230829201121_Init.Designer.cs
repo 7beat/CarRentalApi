@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarRental.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230827191721_Init")]
+    [Migration("20230829201121_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -108,6 +108,31 @@ namespace CarRental.Infrastructure.Migrations
                             Horsepower = 150,
                             Model = "KAWASAKI Z1"
                         });
+                });
+
+            modelBuilder.Entity("CarRental.Domain.Entities.Rental", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("date");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("VehicleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("VehicleId");
+
+                    b.ToTable("Rentals");
                 });
 
             modelBuilder.Entity("CarRental.Infrastructure.Identity.Models.ApplicationUser", b =>
@@ -331,7 +356,7 @@ namespace CarRental.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("5d126edc-4b47-4b46-8b92-685109917844"),
+                            Id = new Guid("7ee6a395-7d7a-45ff-ae3b-d92e964c3cc6"),
                             Brand = "Ford",
                             DateOfProduction = new DateTime(2019, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EngineId = new Guid("e449eae3-e5b5-41d6-b89f-fecfc0dc9676"),
@@ -352,7 +377,7 @@ namespace CarRental.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("1fde6e67-f03b-4dac-acdc-c62ad2f59a49"),
+                            Id = new Guid("df73853b-7241-4839-b00a-95d26c794d26"),
                             Brand = "Kawasaki",
                             DateOfProduction = new DateTime(2016, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EngineId = new Guid("5a6d7c68-b19b-4c82-94c5-43c084048092"),
@@ -374,6 +399,17 @@ namespace CarRental.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Engine");
+                });
+
+            modelBuilder.Entity("CarRental.Domain.Entities.Rental", b =>
+                {
+                    b.HasOne("CarRental.Domain.Common.Vehicle", "Vehicle")
+                        .WithMany()
+                        .HasForeignKey("VehicleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Vehicle");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

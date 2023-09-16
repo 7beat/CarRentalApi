@@ -78,3 +78,12 @@ internal class MotorcyclesConfiguration : IEntityTypeConfiguration<Motorcycle>
         });
     }
 }
+
+internal class RentalsConfiguration : IEntityTypeConfiguration<Rental>
+{
+    public void Configure(EntityTypeBuilder<Rental> builder)
+    {
+        builder.HasKey(r => r.Id);
+        builder.HasOne(r => r.Vehicle).WithMany().HasForeignKey(r => r.VehicleId);
+    }
+}
