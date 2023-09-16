@@ -14,6 +14,12 @@ internal class RentalProfiles : Profile
         CreateMap<AddRentalCommand, Rental>();
 
         CreateMap<UpdateRentalCommand, Rental>()
+            .ForMember(dest => dest.VehicleId, opt =>
+            {
+                opt.PreCondition(src => src.VehicleId is not null);
+                opt.MapFrom(src => src.VehicleId!.Value);
+            })
             .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember is not null));
+
     }
 }
