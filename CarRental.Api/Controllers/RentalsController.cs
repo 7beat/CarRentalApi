@@ -44,4 +44,11 @@ public class RentalsController : ControllerBase
         var result = await mediator.Send(request);
         return result is null ? BadRequest() : Ok(result);
     }
+
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        var succeded = await mediator.Send(new DeleteRentalCommand(id));
+        return succeded ? NoContent() : Ok(succeded);
+    }
 }
