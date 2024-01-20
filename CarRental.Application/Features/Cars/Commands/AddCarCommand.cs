@@ -2,6 +2,7 @@
 using CarRental.Application.Contracts.Persistence;
 using CarRental.Domain.Entities;
 using MediatR;
+using Swashbuckle.AspNetCore.Annotations;
 using System.ComponentModel.DataAnnotations;
 
 namespace CarRental.Application.Features.Cars.Commands;
@@ -17,6 +18,8 @@ public record AddCarCommand : IRequest<Guid>
     public int NumberOfDoors { get; init; }
     [Required]
     public Guid EngineId { get; set; }
+    [SwaggerSchema(ReadOnly = true)]
+    public Guid CreatedBy { get; set; }
 }
 
 internal class AddCarCommandHandler : IRequestHandler<AddCarCommand, Guid>
