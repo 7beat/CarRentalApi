@@ -19,6 +19,7 @@ public class VehicleRepository : GenericRepository<Vehicle>, IVehicleRepository
         {
             VehicleType.Car => await dbContext.Cars.ToListAsync(cancellationToken),
             VehicleType.Motorcycle => await dbContext.Motorcycles.ToListAsync(cancellationToken),
+            _ => throw new NotImplementedException($"Vehicle Type {vehicleType} isnt supported!")
         };
     }
 }
