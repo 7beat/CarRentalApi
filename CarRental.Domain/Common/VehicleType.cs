@@ -5,7 +5,6 @@ namespace CarRental.Domain.Common;
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum VehicleType
 {
-    All,
     Car,
     Motorcycle
 }
