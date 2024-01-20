@@ -14,6 +14,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.RegisterServices(builder.Configuration);
 builder.Services.ConfigureSwagger(builder.Configuration);
 
+builder.Services.AddHealthChecks();
 builder.Services.AddTransient<ExceptionMiddleware>();
 
 var app = builder.Build();
@@ -38,5 +39,7 @@ app.UseAuthorization();
 app.UseMiddleware<ExceptionMiddleware>();
 
 app.MapControllers();
+
+app.MapHealthChecks("health");
 
 app.Run();
