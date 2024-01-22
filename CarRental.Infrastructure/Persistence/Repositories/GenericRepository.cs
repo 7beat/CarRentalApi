@@ -16,7 +16,7 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
         this.dbSet = _dbContext.Set<TEntity>();
     }
 
-    public async Task<TEntity> CreateAsync(TEntity entity, CancellationToken cancellationToken)
+    public virtual async Task<TEntity> CreateAsync(TEntity entity, CancellationToken cancellationToken)
     {
         await dbSet.AddAsync(entity, cancellationToken);
         return entity;

@@ -9,6 +9,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarRental.Infrastructure.Persistence.Repositories;
+
+/// <summary>
+/// Model Relations has to be reworked in order to Fix RentalRepository and including User reference
+/// </summary>
 public class RentalRepository : GenericRepository<Rental>, IRentalRepository
 {
     private readonly ApplicationDbContext dbContext;
@@ -61,18 +65,27 @@ public class RentalRepository : GenericRepository<Rental>, IRentalRepository
         return rentalsDto;
     }
 
+    public override async Task<Rental> CreateAsync(Rental rental, CancellationToken cancellationToken)
+    {
+        if (await IsOverlap(rental))
+            throw new BadRequestException("Selected Vehicle is already rented at given Time!");
+
+        return await base.CreateAsync(rental, cancellationToken);
+    }
+
     public async Task UpdateAsync(Rental rental)
     {
-        bool isOverlap = await dbContext.Rentals
-            .Where(r => r.VehicleId == rental.VehicleId)
-            .AnyAsync(r =>
-            (rental.StartDate >= r.StartDate && rental.StartDate <= r.EndDate) ||
-            (rental.EndDate >= r.StartDate && rental.EndDate <= r.EndDate) ||
-            (rental.StartDate <= r.StartDate && rental.EndDate >= r.EndDate));
-
-        if (isOverlap)
-            throw new BadRequestException("Dates for new Rental are colliding with existing one!");
+        if (await IsOverlap(rental))
+            throw new BadRequestException("Selected Vehicle is already rented at given Time!");
 
         dbContext.Update(rental);
     }
+
+    private async Task<bool> IsOverlap(Rental entity) =>
+    await dbContext.Rentals
+        .Where(r => r.VehicleId == entity.VehicleId)
+        .AnyAsync(r =>
+        (entity.StartDate >= r.StartDate && entity.StartDate <= r.EndDate) ||
+        (entity.EndDate >= r.StartDate && entity.EndDate <= r.EndDate) ||
+        (entity.StartDate <= r.StartDate && entity.EndDate >= r.EndDate));
 }

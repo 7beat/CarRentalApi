@@ -13,10 +13,12 @@ public class UnitOfWork : IUnitOfWork
     private ICarRepository _carRepository;
     private IVehicleRepository _vehicleRepository;
     private IMotorcycleRepository _motorcycleRepository;
+    // private IRentalRepository _rentalRepository;
 
     public ICarRepository Cars => _carRepository ??= new CarRepository(dbContext);
     public IVehicleRepository Vehicles => _vehicleRepository ??= new VehicleRepository(dbContext);
     public IMotorcycleRepository Motorcycles => _motorcycleRepository ??= new MotorcycleRepository(dbContext);
+    // public IRentalRepository Rentals => _rentalRepository ??= new RentalRepository(dbContext);
 
     public UnitOfWork(ApplicationDbContext dbContext)
     {
