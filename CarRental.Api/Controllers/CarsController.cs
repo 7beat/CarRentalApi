@@ -3,10 +3,8 @@ using CarRental.Application.Contracts.Requests;
 using CarRental.Application.Features.Cars.Commands;
 using CarRental.Application.Features.Cars.Queries;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
-using System.Security.Claims;
 
 namespace CarRental.Api.Controllers;
 [ApiController]
@@ -38,12 +36,12 @@ public class CarsController : ControllerBase
         return car is null ? NotFound() : Ok(car);
     }
 
-    [Authorize]
+    //[Authorize]
     [HttpPost("[action]")]
     public async Task<IActionResult> Add([FromForm] AddCarRequest request)
     {
         var command = mapper.Map<AddCarRequest, AddCarCommand>(request);
-        command.CreatedBy = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        //command.CreatedBy = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
 
         var carId = await mediator.Send(command);
         return Ok(carId);
