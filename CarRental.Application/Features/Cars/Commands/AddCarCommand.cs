@@ -4,24 +4,19 @@ using CarRental.Application.Features.Common.Commands;
 using CarRental.Domain.Entities;
 using FluentValidation;
 using MediatR;
-using System.ComponentModel.DataAnnotations;
 
 namespace CarRental.Application.Features.Cars.Commands;
 public record AddCarCommand : AddBaseCommand
 {
-    [Required]
     public int NumberOfDoors { get; init; }
 }
 
-public class AddCarCommandValidator : AbstractValidator<AddCarCommand>
+public class AddCarCommandValidator : AddBaseValidator<AddCarCommand>
 {
     public AddCarCommandValidator()
     {
-        RuleFor(c => c.Brand)
-            .Equal("Brand")
-            .WithMessage("Test Message");
-
         RuleFor(c => c.NumberOfDoors)
+            .NotEmpty()
             .LessThanOrEqualTo(5);
     }
 }
