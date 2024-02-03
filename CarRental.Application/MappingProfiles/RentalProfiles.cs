@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CarRental.Application.Contracts.Requests;
 using CarRental.Application.Features.Rentals;
 using CarRental.Application.Features.Rentals.Commands;
 using CarRental.Domain.Entities;
@@ -10,6 +11,8 @@ internal class RentalProfiles : Profile
     {
         CreateMap<Rental, RentalDto>()
             .ReverseMap();
+
+        CreateMap<AddRentalRequest, AddRentalCommand>();
 
         CreateMap<AddRentalCommand, Rental>();
 
