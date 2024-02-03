@@ -2,22 +2,29 @@
 using CarRental.Application.Contracts.Persistence;
 using CarRental.Application.Contracts.Persistence.IRepositories;
 using CarRental.Domain.Entities;
+using FluentValidation;
 using MediatR;
-using System.ComponentModel.DataAnnotations;
 
 namespace CarRental.Application.Features.Rentals.Commands;
 public record AddRentalCommand : IRequest<Guid>
 {
-    [Required]
-    [DataType(DataType.Date)]
     public DateOnly StartDate { get; set; }
-    [Required]
-    [DataType(DataType.Date)]
     public DateOnly EndDate { get; set; }
-    [Required]
     public Guid UserId { get; set; }
-    [Required]
     public Guid VehicleId { get; set; }
+}
+
+public class AddRentalCommandValidator : AbstractValidator<AddRentalCommand>
+{
+    public AddRentalCommandValidator()
+    {
+        RuleFor(c => c.StartDate)
+            .Equal(DateOnly.FromDateTime(DateTime.Today));
+
+        RuleFor(c => c.EndDate)
+            .NotEmpty()
+            .GreaterThan(c => c.StartDate);
+    }
 }
 
 internal class AddRentalCommandHandler : IRequestHandler<AddRentalCommand, Guid>
