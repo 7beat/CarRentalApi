@@ -3,6 +3,7 @@ using CarRental.Application.Contracts.Requests;
 using CarRental.Application.Features.Rentals;
 using CarRental.Application.Features.Rentals.Commands;
 using CarRental.Domain.Entities;
+using CarRental.Infrastructure.Messaging.Events;
 
 namespace CarRental.Application.MappingProfiles;
 internal class RentalProfiles : Profile
@@ -24,5 +25,6 @@ internal class RentalProfiles : Profile
             })
             .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember is not null));
 
+        CreateMap<Rental, RentalCreatedEvent>();
     }
 }
