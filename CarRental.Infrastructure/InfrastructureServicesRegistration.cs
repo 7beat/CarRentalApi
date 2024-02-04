@@ -1,10 +1,12 @@
 ﻿using CarRental.Application.Contracts.Identity;
+using CarRental.Application.Contracts.Messaging.Services;
 using CarRental.Application.Contracts.Persistence;
 using CarRental.Application.Contracts.Persistence.IRepositories;
 using CarRental.Infrastructure.Identity.Models;
 using CarRental.Infrastructure.Persistence.Data;
 using CarRental.Infrastructure.Persistence.Repositories;
 using CarRental.Infrastructure.Services;
+using CarRental.Infrastructure.Services.Messaging;
 using CarRental.Persistence;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -23,6 +25,7 @@ public static class InfrastructureServicesRegistration
         services.AddScoped<IRentalRepository, RentalRepository>();
         services.AddTransient<IAuthService, AuthService>();
         services.AddTransient<IAuthorizationHandler, RoleAuthorizationHandler>();
+        services.AddTransient<IRentalMessageService, RentalMessageService>();
         services.ConfigureIdentity();
     }
 
