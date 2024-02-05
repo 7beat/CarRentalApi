@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CarRental.Application.Features.Rentals.Notifications;
 using CarRental.Infrastructure.Messaging.Events;
 using MassTransit;
 using MediatR;
@@ -20,9 +21,8 @@ public class CreateRentalConsumer : IConsumer<RentalCreatedEvent>
 
     public async Task Consume(ConsumeContext<RentalCreatedEvent> context)
     {
-        // 1. Create in App.Features Notifications Folder and Create INotification and mediator.Publish()
         logger.LogInformation($"Consuming message for vehicle: {context.Message.VehicleId}");
-        //var command = mapper.Map<RentalConsumed>(context.Message);
-        //await mediator.Publish(command);
+        var command = mapper.Map<RentalConsumedNotification>(context.Message);
+        await mediator.Publish(command);
     }
 }
