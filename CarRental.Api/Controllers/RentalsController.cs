@@ -1,4 +1,6 @@
-﻿using CarRental.Application.Features.Rentals.Commands;
+﻿using AutoMapper;
+using CarRental.Application.Contracts.Requests;
+using CarRental.Application.Features.Rentals.Commands;
 using CarRental.Application.Features.Rentals.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -11,10 +13,12 @@ namespace CarRental.Api.Controllers;
 public class RentalsController : ControllerBase
 {
     private readonly IMediator mediator;
+    private readonly IMapper mapper;
 
-    public RentalsController(IMediator mediator)
+    public RentalsController(IMediator mediator, IMapper mapper)
     {
         this.mediator = mediator;
+        this.mapper = mapper;
     }
 
     [HttpGet]
@@ -34,10 +38,11 @@ public class RentalsController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Add([FromForm] AddRentalCommand request)
+    public async Task<IActionResult> Add([FromForm] AddRentalRequest request)
     {
-        var result = await mediator.Send(request);
-        return StatusCode(StatusCodes.Status201Created);
+        var command = mapper.Map<AddRentalCommand>(request);
+        var result = await mediator.Send(command);
+        return StatusCode(StatusCodes.Status201Created, result);
     }
 
     [HttpPut]

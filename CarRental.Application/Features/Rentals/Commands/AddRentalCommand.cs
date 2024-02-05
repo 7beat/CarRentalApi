@@ -1,23 +1,32 @@
 ﻿using AutoMapper;
+using CarRental.Application.Contracts.Messaging.Services;
 using CarRental.Application.Contracts.Persistence;
 using CarRental.Application.Contracts.Persistence.IRepositories;
 using CarRental.Domain.Entities;
+using CarRental.Infrastructure.Messaging.Events;
+using FluentValidation;
 using MediatR;
-using System.ComponentModel.DataAnnotations;
 
 namespace CarRental.Application.Features.Rentals.Commands;
 public record AddRentalCommand : IRequest<Guid>
 {
-    [Required]
-    [DataType(DataType.Date)]
     public DateOnly StartDate { get; set; }
-    [Required]
-    [DataType(DataType.Date)]
     public DateOnly EndDate { get; set; }
-    [Required]
     public Guid UserId { get; set; }
-    [Required]
     public Guid VehicleId { get; set; }
+}
+
+public class AddRentalCommandValidator : AbstractValidator<AddRentalCommand>
+{
+    public AddRentalCommandValidator()
+    {
+        RuleFor(c => c.StartDate)
+            .GreaterThanOrEqualTo(DateOnly.FromDateTime(DateTime.Today));
+
+        RuleFor(c => c.EndDate)
+            .NotEmpty()
+            .GreaterThan(c => c.StartDate);
+    }
 }
 
 internal class AddRentalCommandHandler : IRequestHandler<AddRentalCommand, Guid>
@@ -25,12 +34,14 @@ internal class AddRentalCommandHandler : IRequestHandler<AddRentalCommand, Guid>
     private readonly IRentalRepository rentalRepository;
     private readonly IUnitOfWork unitOfWork;
     private readonly IMapper mapper;
+    private readonly IRentalMessageService rentalMessageService;
 
-    public AddRentalCommandHandler(IRentalRepository rentalRepository, IUnitOfWork unitOfWork, IMapper mapper)
+    public AddRentalCommandHandler(IRentalRepository rentalRepository, IUnitOfWork unitOfWork, IMapper mapper, IRentalMessageService rentalMessageService)
     {
         this.rentalRepository = rentalRepository;
         this.unitOfWork = unitOfWork;
         this.mapper = mapper;
+        this.rentalMessageService = rentalMessageService;
     }
 
     public async Task<Guid> Handle(AddRentalCommand request, CancellationToken cancellationToken)
@@ -39,6 +50,9 @@ internal class AddRentalCommandHandler : IRequestHandler<AddRentalCommand, Guid>
 
         await rentalRepository.CreateAsync(rental, cancellationToken);
         await unitOfWork.SaveChangesAsync(cancellationToken);
+
+        var message = mapper.Map<RentalCreatedEvent>(rental);
+        await rentalMessageService.SendMessageAsync(message);
 
         return rental.Id;
     }

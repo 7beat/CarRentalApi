@@ -1,4 +1,5 @@
 ﻿using CarRental.Application.Exceptions;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -53,6 +54,17 @@ public class ExceptionMiddleware : IMiddleware
                     Status = (int)statusCode,
                     Detail = unAuthorizedException.InnerException?.Message,
                     Type = nameof(UnAuthorizedException)
+                };
+                break;
+            case ValidationException validationException:
+                statusCode = HttpStatusCode.BadRequest;
+                var errorDetails = string.Join(Environment.NewLine, validationException.Errors.Select(error => error.ErrorMessage));
+                problem = new()
+                {
+                    Title = validationException.Message,
+                    Status = (int)statusCode,
+                    Detail = errorDetails,
+                    Type = nameof(ValidationException)
                 };
                 break;
             default:

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CarRental.Application.Contracts.Requests;
 using CarRental.Application.Features.Cars.Commands;
 using CarRental.Domain.Entities;
 
@@ -11,5 +12,6 @@ internal class CarProfiles : Profile
         CreateMap<UpdateCarCommand, Car>()
         .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember is not null));
 
+        CreateMap<AddCarRequest, AddCarCommand>();
     }
 }

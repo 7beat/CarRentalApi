@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
+using CarRental.Application.Contracts.Requests;
 using CarRental.Application.Features.Rentals;
 using CarRental.Application.Features.Rentals.Commands;
+using CarRental.Application.Features.Rentals.Notifications;
 using CarRental.Domain.Entities;
+using CarRental.Infrastructure.Messaging.Events;
 
 namespace CarRental.Application.MappingProfiles;
 internal class RentalProfiles : Profile
@@ -10,6 +13,8 @@ internal class RentalProfiles : Profile
     {
         CreateMap<Rental, RentalDto>()
             .ReverseMap();
+
+        CreateMap<AddRentalRequest, AddRentalCommand>();
 
         CreateMap<AddRentalCommand, Rental>();
 
@@ -21,5 +26,8 @@ internal class RentalProfiles : Profile
             })
             .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember is not null));
 
+        CreateMap<Rental, RentalCreatedEvent>();
+
+        CreateMap<RentalCreatedEvent, RentalConsumedNotification>();
     }
 }

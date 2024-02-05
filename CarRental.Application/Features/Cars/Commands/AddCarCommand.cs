@@ -1,22 +1,24 @@
 ﻿using AutoMapper;
 using CarRental.Application.Contracts.Persistence;
+using CarRental.Application.Features.Common.Commands;
 using CarRental.Domain.Entities;
+using FluentValidation;
 using MediatR;
-using System.ComponentModel.DataAnnotations;
 
 namespace CarRental.Application.Features.Cars.Commands;
-public record AddCarCommand : IRequest<Guid>
+public record AddCarCommand : AddBaseCommand
 {
-    [Required]
-    public string Brand { get; init; }
-    [Required]
-    public string Model { get; init; }
-    [Required]
-    public DateOnly DateOfProduction { get; init; }
-    [Required]
     public int NumberOfDoors { get; init; }
-    [Required]
-    public Guid EngineId { get; set; }
+}
+
+public class AddCarCommandValidator : AddBaseValidator<AddCarCommand>
+{
+    public AddCarCommandValidator()
+    {
+        RuleFor(c => c.NumberOfDoors)
+            .NotEmpty()
+            .LessThanOrEqualTo(5);
+    }
 }
 
 internal class AddCarCommandHandler : IRequestHandler<AddCarCommand, Guid>

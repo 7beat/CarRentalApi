@@ -1,4 +1,6 @@
-﻿using CarRental.Application.Features.Cars.Commands;
+﻿using AutoMapper;
+using CarRental.Application.Contracts.Requests;
+using CarRental.Application.Features.Cars.Commands;
 using CarRental.Application.Features.Cars.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -11,9 +13,11 @@ namespace CarRental.Api.Controllers;
 public class CarsController : ControllerBase
 {
     private readonly IMediator mediator;
-    public CarsController(IMediator mediator)
+    private readonly IMapper mapper;
+    public CarsController(IMediator mediator, IMapper mapper)
     {
         this.mediator = mediator;
+        this.mapper = mapper;
     }
 
     [HttpGet("[action]")]
@@ -32,10 +36,14 @@ public class CarsController : ControllerBase
         return car is null ? NotFound() : Ok(car);
     }
 
+    //[Authorize]
     [HttpPost("[action]")]
-    public async Task<IActionResult> Add([FromForm] AddCarCommand request)
+    public async Task<IActionResult> Add([FromForm] AddCarRequest request)
     {
-        var carId = await mediator.Send(request);
+        var command = mapper.Map<AddCarRequest, AddCarCommand>(request);
+        //command.CreatedBy = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+
+        var carId = await mediator.Send(command);
         return Ok(carId);
     }
 
