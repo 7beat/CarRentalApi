@@ -2,6 +2,7 @@
 using CarRental.Infrastructure;
 using CarRental.Infrastructure.Messaging.Events;
 using MassTransit;
+using System.Reflection;
 
 namespace CarRental.Api.Configuration;
 
@@ -19,7 +20,7 @@ public static class ApiServicesRegistration
         services.AddMassTransit(config =>
         {
             config.SetKebabCaseEndpointNameFormatter();
-            // config.AddConsumers(Assembly.GetExecutingAssembly());
+            config.AddConsumers(Assembly.GetExecutingAssembly());
             config.UsingRabbitMq((context, cfg) =>
             {
                 cfg.Host("localhost");
