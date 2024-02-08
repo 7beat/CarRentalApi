@@ -4,7 +4,9 @@ using CarRental.Application.Features.Common.Commands;
 using CarRental.Domain.Entities;
 using FluentValidation;
 using MediatR;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("CarRental.Tests")]
 namespace CarRental.Application.Features.Cars.Commands;
 public record AddCarCommand : AddBaseCommand
 {
