@@ -16,9 +16,11 @@ public class AddBaseValidator<T> : AbstractValidator<T> where T : AddBaseCommand
     public AddBaseValidator()
     {
         RuleFor(x => x.Brand)
+            .NotEmpty()
             .MaximumLength(20);
 
         RuleFor(x => x.Model)
+            .NotEmpty()
             .MaximumLength(20);
 
         RuleFor(c => c.CreatedBy)
