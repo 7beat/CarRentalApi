@@ -1,4 +1,4 @@
-﻿namespace CarRental.Infrastructure.Messaging.Events;
+﻿namespace CarRental.Application.Contracts.Messaging.Events;
 public class RentalCreatedEvent
 {
     public Guid VehicleId { get; set; }

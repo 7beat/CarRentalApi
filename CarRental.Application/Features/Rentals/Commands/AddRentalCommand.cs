@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
+using CarRental.Application.Contracts.Messaging.Events;
 using CarRental.Application.Contracts.Messaging.Services;
 using CarRental.Application.Contracts.Persistence;
 using CarRental.Application.Contracts.Persistence.IRepositories;
 using CarRental.Domain.Entities;
-using CarRental.Infrastructure.Messaging.Events;
 using FluentValidation;
 using MediatR;
 
