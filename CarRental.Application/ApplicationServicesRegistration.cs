@@ -4,6 +4,9 @@ using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("CarRental.Tests")]
 
 namespace CarRental.Application;
 
