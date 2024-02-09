@@ -1,6 +1,6 @@
 ﻿using CarRental.Application;
+using CarRental.Application.Contracts.Messaging.Events;
 using CarRental.Infrastructure;
-using CarRental.Infrastructure.Messaging.Events;
 using MassTransit;
 using System.Reflection;
 

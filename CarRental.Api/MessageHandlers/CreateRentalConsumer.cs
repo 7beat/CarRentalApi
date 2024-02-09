@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using CarRental.Application.Contracts.Messaging.Events;
 using CarRental.Application.Features.Rentals.Notifications;
-using CarRental.Infrastructure.Messaging.Events;
 using MassTransit;
 using MediatR;
 
