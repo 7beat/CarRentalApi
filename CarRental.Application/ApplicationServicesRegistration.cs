@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("CarRental.Tests")]
+[assembly: InternalsVisibleTo("CarRental.UnitTests")]
 
 namespace CarRental.Application;
 
