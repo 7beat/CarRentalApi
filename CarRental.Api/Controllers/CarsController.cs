@@ -28,7 +28,7 @@ public class CarsController : ControllerBase
         return result is null ? NoContent() : Ok(result);
     }
 
-    [HttpGet("[action]/{id:int}")]
+    [HttpGet("[action]/{id:guid}")]
     public async Task<IActionResult> GetById(Guid id)
     {
         var car = await mediator.Send(new GetSingleCarQuery(id));
