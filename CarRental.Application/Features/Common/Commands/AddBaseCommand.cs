@@ -8,7 +8,7 @@ public abstract record AddBaseCommand : IRequest<Guid>
     public string Model { get; init; } = default!;
     public DateOnly DateOfProduction { get; init; }
     public Guid EngineId { get; init; }
-    public required Guid CreatedBy { get; init; }
+    public required Guid CreatedBy { get; set; }
 }
 
 public class AddBaseValidator<T> : AbstractValidator<T> where T : AddBaseCommand
