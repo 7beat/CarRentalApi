@@ -27,7 +27,7 @@ public class AddBaseValidator<T> : AbstractValidator<T> where T : AddBaseCommand
             .NotEmpty();
 
         RuleFor(c => c.DateOfProduction)
-            .LessThan(DateOnly.FromDateTime(DateTime.Today).AddYears(-20))
+            .GreaterThan(DateOnly.FromDateTime(DateTime.Today).AddYears(-20))
             .WithMessage("Vehicle cant be older than 20 years");
     }
 }
