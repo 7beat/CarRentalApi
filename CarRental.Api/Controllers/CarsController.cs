@@ -40,7 +40,7 @@ public class CarsController : ControllerBase
 
     [Authorize]
     [HttpPost("[action]")]
-    public async Task<IActionResult> Add([FromForm] AddCarRequest request)
+    public async Task<IActionResult> Add(AddCarRequest request)
     {
         var command = mapper.Map<AddCarRequest, AddCarCommand>(request);
         command.CreatedBy = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
