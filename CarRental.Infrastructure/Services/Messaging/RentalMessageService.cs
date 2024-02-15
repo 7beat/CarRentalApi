@@ -1,5 +1,5 @@
-﻿using CarRental.Application.Contracts.Messaging.Services;
-using CarRental.Infrastructure.Messaging.Events;
+﻿using CarRental.Application.Contracts.Messaging.Events;
+using CarRental.Application.Contracts.Messaging.Services;
 using MassTransit;
 
 namespace CarRental.Infrastructure.Services.Messaging;

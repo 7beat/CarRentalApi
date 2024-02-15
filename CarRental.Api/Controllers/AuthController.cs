@@ -24,10 +24,10 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Register([FromForm] RegisterCommand request)
+    public async Task<IActionResult> Register(RegisterCommand request)
     {
         var result = await mediator.Send(request);
 
-        return result.Succeded ? StatusCode(StatusCodes.Status201Created) : BadRequest();
+        return result.Succeded ? StatusCode(StatusCodes.Status201Created, result.Token) : BadRequest();
     }
 }

@@ -15,7 +15,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{C98B722E-D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRental.Infrastructure", "CarRental.Infrastructure\CarRental.Infrastructure.csproj", "{D3D1460A-F8A7-4906-9E0C-69C9BC0EDAAE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRental.Utility", "CarRental.Utility\CarRental.Utility.csproj", "{DEB5DB19-0B3C-4201-9C6B-CEF16AB3B01A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRental.Utility", "CarRental.Utility\CarRental.Utility.csproj", "{DEB5DB19-0B3C-4201-9C6B-CEF16AB3B01A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRental.UnitTests", "CarRental.Tests\CarRental.UnitTests.csproj", "{E59FC677-98A7-4D93-92BA-526D111485C1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{D452149E-BD64-4D0D-919C-D58B5553CAEE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRental.IntegrationTests", "CarRental.IntegrationTests\CarRental.IntegrationTests.csproj", "{E7D48EB8-5CAD-4769-A4E9-C965B060067A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +49,14 @@ Global
 		{DEB5DB19-0B3C-4201-9C6B-CEF16AB3B01A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DEB5DB19-0B3C-4201-9C6B-CEF16AB3B01A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DEB5DB19-0B3C-4201-9C6B-CEF16AB3B01A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E59FC677-98A7-4D93-92BA-526D111485C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E59FC677-98A7-4D93-92BA-526D111485C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E59FC677-98A7-4D93-92BA-526D111485C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E59FC677-98A7-4D93-92BA-526D111485C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7D48EB8-5CAD-4769-A4E9-C965B060067A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7D48EB8-5CAD-4769-A4E9-C965B060067A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7D48EB8-5CAD-4769-A4E9-C965B060067A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7D48EB8-5CAD-4769-A4E9-C965B060067A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -53,6 +67,8 @@ Global
 		{C98B722E-DA62-49FB-829F-EE39C26D67F9} = {E1A741D6-5677-4F53-A120-3E0E4F4619EA}
 		{D3D1460A-F8A7-4906-9E0C-69C9BC0EDAAE} = {E1A741D6-5677-4F53-A120-3E0E4F4619EA}
 		{DEB5DB19-0B3C-4201-9C6B-CEF16AB3B01A} = {E1A741D6-5677-4F53-A120-3E0E4F4619EA}
+		{E59FC677-98A7-4D93-92BA-526D111485C1} = {D452149E-BD64-4D0D-919C-D58B5553CAEE}
+		{E7D48EB8-5CAD-4769-A4E9-C965B060067A} = {D452149E-BD64-4D0D-919C-D58B5553CAEE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {789A298D-E9F6-440B-A1DD-52C7FD2C0E5F}

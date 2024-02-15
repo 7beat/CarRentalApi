@@ -25,6 +25,7 @@
   <ItemGroup>
     <ProjectReference Include="..\CarRental.Application\CarRental.Application.csproj" />
     <ProjectReference Include="..\CarRental.Infrastructure\CarRental.Infrastructure.csproj" />
+	  <InternalsVisibleTo Include="CarRental.IntegrationTests"/>
   </ItemGroup>
 
 </Project>

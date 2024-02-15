@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
+using CarRental.Application.Contracts.Messaging.Events;
 using CarRental.Application.Contracts.Requests;
 using CarRental.Application.Features.Rentals;
 using CarRental.Application.Features.Rentals.Commands;
 using CarRental.Application.Features.Rentals.Notifications;
 using CarRental.Domain.Entities;
-using CarRental.Infrastructure.Messaging.Events;
 
 namespace CarRental.Application.MappingProfiles;
 internal class RentalProfiles : Profile
