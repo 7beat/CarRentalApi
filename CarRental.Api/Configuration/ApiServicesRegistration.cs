@@ -12,10 +12,10 @@ public static class ApiServicesRegistration
     {
         services.RegisterApplication(configuration);
         services.RegisterInfrastructure(configuration);
-        services.ConfigureMessagingService();
+        services.ConfigureRabbitMQ();
     }
 
-    private static void ConfigureMessagingService(this IServiceCollection services)
+    private static void ConfigureRabbitMQ(this IServiceCollection services)
     {
         services.AddMassTransit(config =>
         {

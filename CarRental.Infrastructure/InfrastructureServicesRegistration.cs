@@ -20,18 +20,19 @@ public static class InfrastructureServicesRegistration
 {
     public static void RegisterInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        services.ConfigureDbContext(configuration);
+        var connectionString = configuration.GetConnectionString("DefaultConnection");
+        services.ConfigureDbContext(connectionString!);
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IRentalRepository, RentalRepository>();
         services.AddTransient<IAuthService, AuthService>();
         services.AddTransient<IAuthorizationHandler, RoleAuthorizationHandler>();
         services.AddTransient<IRentalMessageService, RentalMessageService>();
         services.ConfigureIdentity();
+        services.ConfigureHealthChecks(connectionString!);
     }
 
-    private static void ConfigureDbContext(this IServiceCollection services, IConfiguration configuration)
+    private static void ConfigureDbContext(this IServiceCollection services, string connectionString)
     {
-        var connectionString = configuration.GetConnectionString("DefaultConnection");
         services.AddDbContext<ApplicationDbContext>(options =>
         {
             options.UseSqlServer(connectionString, sqloptions =>
@@ -53,4 +54,9 @@ public static class InfrastructureServicesRegistration
         .AddEntityFrameworkStores<ApplicationDbContext>()
         .AddDefaultTokenProviders();
     }
+
+    private static void ConfigureHealthChecks(this IServiceCollection services, string connectionString) =>
+        services.AddHealthChecks()
+        .AddSqlServer(connectionString);
+    //.AddRabbitMQ();
 }
