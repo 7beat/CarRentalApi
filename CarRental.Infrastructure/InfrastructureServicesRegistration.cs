@@ -65,9 +65,16 @@ public static class InfrastructureServicesRegistration
         {
             config.SetKebabCaseEndpointNameFormatter();
             config.AddConsumers(Assembly.GetExecutingAssembly());
+            config.AddEntityFrameworkOutbox<ApplicationDbContext>(x =>
+            {
+                x.UseSqlServer();
+            });
             config.UsingRabbitMq((context, cfg) =>
             {
                 cfg.Host("localhost");
+
+                cfg.UseDelayedRedelivery(r => r.Intervals(TimeSpan.FromMinutes(5), TimeSpan.FromMinutes(15), TimeSpan.FromMinutes(30)));
+                cfg.UseMessageRetry(r => r.Immediate(5));
 
                 cfg.ConfigureEndpoints(context);
                 cfg.Publish<RentalCreatedEvent>();
