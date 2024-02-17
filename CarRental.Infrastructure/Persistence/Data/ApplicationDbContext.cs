@@ -2,6 +2,7 @@
 using CarRental.Domain.Entities;
 using CarRental.Infrastructure.Identity.Models;
 using CarRental.Utility.Converters;
+using MassTransit;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
@@ -23,6 +24,10 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         base.OnModelCreating(builder);
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+        builder.AddInboxStateEntity();
+        builder.AddOutboxMessageEntity();
+        builder.AddOutboxStateEntity();
     }
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
