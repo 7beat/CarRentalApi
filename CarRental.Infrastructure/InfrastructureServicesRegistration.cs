@@ -1,4 +1,5 @@
 ﻿using CarRental.Application.Contracts.Identity;
+using CarRental.Application.Contracts.Messaging.Events;
 using CarRental.Application.Contracts.Messaging.Services;
 using CarRental.Application.Contracts.Persistence;
 using CarRental.Application.Contracts.Persistence.IRepositories;
@@ -8,11 +9,13 @@ using CarRental.Infrastructure.Persistence.Repositories;
 using CarRental.Infrastructure.Services;
 using CarRental.Infrastructure.Services.Messaging;
 using CarRental.Persistence;
+using MassTransit;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 namespace CarRental.Infrastructure;
 
@@ -28,6 +31,7 @@ public static class InfrastructureServicesRegistration
         services.AddTransient<IAuthorizationHandler, RoleAuthorizationHandler>();
         services.AddTransient<IRentalMessageService, RentalMessageService>();
         services.ConfigureIdentity();
+        services.ConfigureRabbitMQ();
         services.ConfigureHealthChecks(connectionString!);
     }
 
@@ -55,8 +59,24 @@ public static class InfrastructureServicesRegistration
         .AddDefaultTokenProviders();
     }
 
+    private static void ConfigureRabbitMQ(this IServiceCollection services)
+    {
+        services.AddMassTransit(config =>
+        {
+            config.SetKebabCaseEndpointNameFormatter();
+            config.AddConsumers(Assembly.GetExecutingAssembly());
+            config.UsingRabbitMq((context, cfg) =>
+            {
+                cfg.Host("localhost");
+
+                cfg.ConfigureEndpoints(context);
+                cfg.Publish<RentalCreatedEvent>();
+            });
+        });
+    }
+
     private static void ConfigureHealthChecks(this IServiceCollection services, string connectionString) =>
         services.AddHealthChecks()
-        .AddSqlServer(connectionString);
-    //.AddRabbitMQ();
+        .AddSqlServer(connectionString)
+        .AddRabbitMQ(rabbitConnectionString: "amqp://guest:guest@localhost:5672/");
 }
