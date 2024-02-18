@@ -3,5 +3,5 @@
 namespace CarRental.Application.Contracts.Messaging.Services;
 public interface IRentalMessageService
 {
-    Task SendMessageAsync(RentalCreatedEvent message);
+    Task SendMessageAsync(RentalCreatedEvent message, CancellationToken cancellationToken);
 }

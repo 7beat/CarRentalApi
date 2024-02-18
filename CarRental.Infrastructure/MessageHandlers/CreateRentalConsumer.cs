@@ -3,8 +3,9 @@ using CarRental.Application.Contracts.Messaging.Events;
 using CarRental.Application.Features.Rentals.Notifications;
 using MassTransit;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
-namespace CarRental.Api.MessageHandlers;
+namespace CarRental.Infrastructure.MessageHandlers;
 
 public class CreateRentalConsumer : IConsumer<RentalCreatedEvent>
 {

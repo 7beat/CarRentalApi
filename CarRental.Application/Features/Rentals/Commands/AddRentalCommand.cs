@@ -52,7 +52,7 @@ internal class AddRentalCommandHandler : IRequestHandler<AddRentalCommand, Guid>
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
         var message = mapper.Map<RentalCreatedEvent>(rental);
-        await rentalMessageService.SendMessageAsync(message);
+        await rentalMessageService.SendMessageAsync(message, cancellationToken);
 
         return rental.Id;
     }

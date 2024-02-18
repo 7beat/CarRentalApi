@@ -1,6 +1,7 @@
 using CarRental.Api.Configuration;
 using CarRental.Api.Middleware;
 using CarRental.Infrastructure.Extensions;
+using HealthChecks.UI.Client;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +15,6 @@ builder.Services.AddSwaggerGen();
 builder.Services.RegisterServices(builder.Configuration);
 builder.Services.ConfigureSwagger(builder.Configuration);
 
-builder.Services.AddHealthChecks();
 builder.Services.AddTransient<ExceptionMiddleware>();
 
 var app = builder.Build();
@@ -40,6 +40,9 @@ app.UseMiddleware<ExceptionMiddleware>();
 
 app.MapControllers();
 
-app.MapHealthChecks("health");
+app.MapHealthChecks("health", new()
+{
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
 
 app.Run();
