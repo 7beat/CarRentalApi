@@ -68,6 +68,7 @@ public static class InfrastructureServicesRegistration
             config.AddEntityFrameworkOutbox<ApplicationDbContext>(x =>
             {
                 x.UseSqlServer();
+                x.UseBusOutbox();
             });
             config.UsingRabbitMq((context, cfg) =>
             {
