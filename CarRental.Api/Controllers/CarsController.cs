@@ -10,7 +10,7 @@ using System.Security.Claims;
 
 namespace CarRental.Api.Controllers;
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/v{apiVersion:apiVersion}/[controller]")]
 [SwaggerTag("Displaying and Managing Cars")]
 public class CarsController : ControllerBase
 {
