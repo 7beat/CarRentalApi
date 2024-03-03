@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Asp.Versioning.ApiExplorer;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
 using System.Text;
 
@@ -27,24 +30,12 @@ internal static class SwaggerConfiguration
                 ValidateIssuerSigningKey = true,
                 ValidIssuer = jwtConfig["Issuer"],
                 ValidAudience = jwtConfig["Audience"],
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey!))
             };
         });
 
         services.AddSwaggerGen(c =>
         {
-            c.SwaggerDoc("v1", new OpenApiInfo
-            {
-                Title = "Car Rental API",
-                Version = "v1",
-                Description = "Improved version of my old Car Rental API services",
-                Contact = new OpenApiContact
-                {
-                    Name = "7beat",
-                    Email = "t_krzem123@wp.pl",
-                    Url = new("https://github.com/7beat")
-                }
-            });
             c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory,
                 $"{Assembly.GetExecutingAssembly().GetName().Name}.xml"), includeControllerXmlComments: true);
             c.EnableAnnotations();
@@ -73,5 +64,34 @@ internal static class SwaggerConfiguration
                 }
             });
         });
+    }
+}
+
+internal class ConfigureSwaggerGenOptions(IApiVersionDescriptionProvider provider) : IConfigureNamedOptions<SwaggerGenOptions>
+{
+    public void Configure(string? name, SwaggerGenOptions options)
+    {
+        Configure(options);
+    }
+
+    public void Configure(SwaggerGenOptions options)
+    {
+        foreach (var description in provider.ApiVersionDescriptions)
+        {
+            var openApiInfo = new OpenApiInfo()
+            {
+                Title = $"CarRental.Api v{description.ApiVersion}",
+                Version = description.ApiVersion.ToString(),
+                Description = "Improved version of my old Car Rental API services",
+                Contact = new OpenApiContact
+                {
+                    Name = "7beat",
+                    Email = "t_krzem123@wp.pl",
+                    Url = new("https://github.com/7beat")
+                }
+            };
+
+            options.SwaggerDoc(description.GroupName, openApiInfo);
+        }
     }
 }
