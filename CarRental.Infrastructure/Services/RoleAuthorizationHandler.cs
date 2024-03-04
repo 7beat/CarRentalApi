@@ -15,10 +15,10 @@ public class RoleAuthorizationHandler : AuthorizationHandler<RolesAuthorizationR
 
     protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, RolesAuthorizationRequirement requirement)
     {
-        if (context.User.Identity.IsAuthenticated)
+        if (context.User.Identity is { IsAuthenticated: true })
         {
-            var user = await userManager.FindByNameAsync(context.User.Identity.Name);
-            var roles = await userManager.GetRolesAsync(user);
+            var user = await userManager.FindByNameAsync(context.User.Identity.Name!);
+            var roles = await userManager.GetRolesAsync(user!);
 
             if (requirement.AllowedRoles.Intersect(roles).Any())
             {

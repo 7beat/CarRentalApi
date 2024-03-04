@@ -3,6 +3,7 @@ using CarRental.Application.Contracts.Requests;
 using CarRental.Application.Features.Rentals.Commands;
 using CarRental.Application.Features.Rentals.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -14,6 +15,7 @@ public class RentalsController : BaseApiController
     public RentalsController(IMediator mediator, IMapper mapper) : base(mediator, mapper)
     { }
 
+    [Authorize(Roles = "Admin")]
     [HttpGet("[action]")]
     public async Task<IActionResult> GetAll()
     {
