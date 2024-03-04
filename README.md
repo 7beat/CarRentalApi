@@ -18,4 +18,5 @@ EntityBase class ins equiped with **CreatedBy and CreatedAt** properties to cont
 * RabbitMQ Messaging Support
 * Unit Tests
 * Integration Tests
+* Versioning
 * Documentation
