@@ -15,7 +15,8 @@ EntityBase class ins equiped with **CreatedBy and CreatedAt** properties to cont
 * User seeding with assigned roles
 * CQRS
 * Exception Middleware
-* RabbitMQ Messaging Support
+* MassTransit with Outbox Pattern (RabbitMQ)
 * Unit Tests
 * Integration Tests
+* Versioning
 * Documentation
