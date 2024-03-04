@@ -3,19 +3,14 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace CarRental.Api.Controllers;
-[ApiController]
-[Route("api/[controller]/[action]")]
+namespace CarRental.Api.Controllers.V1;
 [SwaggerTag("User Authentication and Registering")]
-public class AuthController : ControllerBase
+public class AuthController : BaseApiController
 {
-    private readonly IMediator mediator;
-    public AuthController(IMediator mediator)
-    {
-        this.mediator = mediator;
-    }
+    public AuthController(IMediator mediator) : base(mediator)
+    { }
 
-    [HttpPost]
+    [HttpPost("[action]")]
     public async Task<IActionResult> Login([FromForm] LoginCommand request)
     {
         var result = await mediator.Send(request);
@@ -23,7 +18,7 @@ public class AuthController : ControllerBase
         return result.Succeded ? Ok(new { result.Token }) : BadRequest();
     }
 
-    [HttpPost]
+    [HttpPost("[action]")]
     public async Task<IActionResult> Register(RegisterCommand request)
     {
         var result = await mediator.Send(request);

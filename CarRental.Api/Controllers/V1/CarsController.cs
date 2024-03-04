@@ -8,19 +8,13 @@ using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Security.Claims;
 
-namespace CarRental.Api.Controllers;
+namespace CarRental.Api.Controllers.V1;
 [ApiController]
-[Route("api/[controller]")]
 [SwaggerTag("Displaying and Managing Cars")]
-public class CarsController : ControllerBase
+public class CarsController : BaseApiController
 {
-    private readonly IMediator mediator;
-    private readonly IMapper mapper;
-    public CarsController(IMediator mediator, IMapper mapper)
-    {
-        this.mediator = mediator;
-        this.mapper = mapper;
-    }
+    public CarsController(IMediator mediator, IMapper mapper) : base(mediator, mapper)
+    { }
 
     [HttpGet("[action]")]
     public async Task<IActionResult> GetAll()
@@ -31,7 +25,7 @@ public class CarsController : ControllerBase
     }
 
     [HttpGet("[action]/{id:guid}")]
-    public async Task<IActionResult> GetById(Guid id)
+    public async Task<IActionResult> GetById([SwaggerParameter("Id of Car")] Guid id)
     {
         var car = await mediator.Send(new GetSingleCarQuery(id));
 
@@ -57,6 +51,7 @@ public class CarsController : ControllerBase
     }
 
     [HttpDelete("[action]/{id:guid}")]
+    [SwaggerOperation(Summary = "Removes given car", Description = "Removes given Car")]
     public async Task<IActionResult> Delete(Guid id)
     {
         var succeded = await mediator.Send(new DeleteCarCommand(id));

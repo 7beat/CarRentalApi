@@ -4,17 +4,13 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace CarRental.Api.Controllers;
+namespace CarRental.Api.Controllers.V1;
 [ApiController]
-[Route("[controller]")]
 [SwaggerTag("Displaying all available vehicles")]
-public class VehiclesController : ControllerBase
+public class VehiclesController : BaseApiController
 {
-    private readonly IMediator mediator;
-    public VehiclesController(IMediator mediator)
-    {
-        this.mediator = mediator;
-    }
+    public VehiclesController(IMediator mediator) : base(mediator)
+    { }
 
     [HttpGet("[action]")]
     public async Task<IActionResult> GetAll()
@@ -24,9 +20,9 @@ public class VehiclesController : ControllerBase
     }
 
     [HttpGet("[action]/{vehicleType}")]
-    public async Task<IActionResult> GetAllOfType([FromRoute] VehicleType vehicleType)
+    public async Task<IActionResult> GetAllOfType([FromRoute][SwaggerParameter(Description = "Type of Vehicle")] VehicleType vehicleType)
     {
-        var t = await mediator.Send(new GetAllVehiclesOfTypeQuery(vehicleType));
-        return Ok(t);
+        var result = await mediator.Send(new GetAllVehiclesOfTypeQuery(vehicleType));
+        return result is null ? NoContent() : Ok(result);
     }
 }

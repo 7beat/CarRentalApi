@@ -4,18 +4,13 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace CarRental.Api.Controllers;
+namespace CarRental.Api.Controllers.V1;
 [ApiController]
-[Route("api/[controller]")]
 [SwaggerTag("Displaying and Managing Motorcycles")]
-public class MotorcyclesController : ControllerBase
+public class MotorcyclesController : BaseApiController
 {
-    private readonly IMediator mediator;
-
-    public MotorcyclesController(IMediator mediator)
-    {
-        this.mediator = mediator;
-    }
+    public MotorcyclesController(IMediator mediator) : base(mediator)
+    { }
 
     [HttpGet("[action]")]
     public async Task<IActionResult> GetAll()

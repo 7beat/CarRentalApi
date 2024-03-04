@@ -1,3 +1,4 @@
+using Asp.Versioning;
 using CarRental.Api.Configuration;
 using CarRental.Api.Middleware;
 using CarRental.Infrastructure.Extensions;
@@ -17,6 +18,21 @@ builder.Services.ConfigureSwagger(builder.Configuration);
 
 builder.Services.AddTransient<ExceptionMiddleware>();
 
+builder.Services.AddApiVersioning(options =>
+{
+    options.DefaultApiVersion = new(1);
+    options.ReportApiVersions = true;
+    options.ApiVersionReader = new UrlSegmentApiVersionReader();
+})
+.AddMvc()
+.AddApiExplorer(options =>
+{
+    options.GroupNameFormat = "'v'V";
+    options.SubstituteApiVersionInUrl = true;
+});
+
+builder.Services.ConfigureOptions<ConfigureSwaggerGenOptions>();
+
 var app = builder.Build();
 
 await app.SeedIdentityAsync();
@@ -27,7 +43,15 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(options =>
     {
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "CarRental API v1");
+        var descriptions = app.DescribeApiVersions();
+
+        foreach (var description in descriptions)
+        {
+            string url = $"/swagger/{description.GroupName}/swagger.json";
+            string name = description.GroupName.ToUpperInvariant();
+
+            options.SwaggerEndpoint(url, name);
+        }
     });
 }
 

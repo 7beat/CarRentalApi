@@ -6,22 +6,15 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace CarRental.Api.Controllers;
+namespace CarRental.Api.Controllers.V1;
 [ApiController]
-[Route("api/[controller]/[action]")]
 [SwaggerTag("Displaying and Managing Rentals")]
-public class RentalsController : ControllerBase
+public class RentalsController : BaseApiController
 {
-    private readonly IMediator mediator;
-    private readonly IMapper mapper;
+    public RentalsController(IMediator mediator, IMapper mapper) : base(mediator, mapper)
+    { }
 
-    public RentalsController(IMediator mediator, IMapper mapper)
-    {
-        this.mediator = mediator;
-        this.mapper = mapper;
-    }
-
-    [HttpGet]
+    [HttpGet("[action]")]
     public async Task<IActionResult> GetAll()
     {
         var result = await mediator.Send(new GetAllRentalsQuery());
@@ -29,7 +22,7 @@ public class RentalsController : ControllerBase
         return result.Any() ? Ok(result) : NoContent();
     }
 
-    [HttpGet("{id:guid}")]
+    [HttpGet("[action]/{id:guid}")]
     public async Task<IActionResult> GetById(Guid id)
     {
         var result = await mediator.Send(new GetSingleRentalQuery(id));
@@ -37,7 +30,7 @@ public class RentalsController : ControllerBase
         return result is null ? NotFound() : Ok(result);
     }
 
-    [HttpPost]
+    [HttpPost("[action]")]
     public async Task<IActionResult> Add([FromForm] AddRentalRequest request)
     {
         var command = mapper.Map<AddRentalCommand>(request);
@@ -45,14 +38,14 @@ public class RentalsController : ControllerBase
         return StatusCode(StatusCodes.Status201Created, result);
     }
 
-    [HttpPut]
+    [HttpPut("[action]")]
     public async Task<IActionResult> Update([FromForm] UpdateRentalCommand request)
     {
         var result = await mediator.Send(request);
         return result is null ? BadRequest() : Ok(result);
     }
 
-    [HttpDelete("{id:guid}")]
+    [HttpDelete("[action]/{id:guid}")]
     public async Task<IActionResult> Delete(Guid id)
     {
         var succeded = await mediator.Send(new DeleteRentalCommand(id));
