@@ -27,11 +27,11 @@ public class CarControllerTests
     public async Task GetAllCarsEndpointRetursAllCars()
     {
         // Act
-        var response = await client.GetAsync("api/Cars/GetAll");
+        var response = await client.GetAsync("api/v1/Cars/GetAll");
         var cars = await response.Content.ReadFromJsonAsync<IEnumerable<VehicleDto>>();
         // Assert
         response.EnsureSuccessStatusCode();
-        Assert.NotNull(cars);
+        Assert.That(cars, Is.Not.Empty);
         Assert.That(cars.Count, Is.GreaterThan(0));
     }
 
@@ -40,7 +40,7 @@ public class CarControllerTests
     public async Task GetSingleCarsEndpointRetursSelectedCars(string carId)
     {
         // Act
-        var response = await client.GetAsync($"api/Cars/GetById/{carId}");
+        var response = await client.GetAsync($"api/v1/Cars/GetById/{carId}");
         var car = await response.Content.ReadFromJsonAsync<VehicleDto>();
         // Assert
         response.EnsureSuccessStatusCode();
@@ -51,12 +51,13 @@ public class CarControllerTests
     public async Task GetAllCarsAllShouldBeReturned()
     {
         // Act
-        var response = await client.GetAsync("/api/Cars/GetAll");
+        var response = await client.GetAsync("/api/v1/Cars/GetAll");
         var result = await response.Content.ReadFromJsonAsync<IEnumerable<VehicleDto>>();
 
         // Assert
         response.EnsureSuccessStatusCode();
-        CollectionAssert.AllItemsAreNotNull(result);
+        Assert.That(result, Is.Not.Empty);
+        Assert.That(result.Count, Is.GreaterThan(0));
     }
 
     [Test]
@@ -73,7 +74,7 @@ public class CarControllerTests
         };
 
         // Act
-        var response = await client.PostAsJsonAsync("api/Cars/Add", request);
+        var response = await client.PostAsJsonAsync("api/v1/Cars/Add", request);
 
         var carId = await response.Content.ReadAsStringAsync();
 
