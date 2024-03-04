@@ -30,7 +30,7 @@ internal class CarRentalApplicationFactory : WebApplicationFactory<Program>
             {
                 options.DefaultAuthenticateScheme = "TestScheme";
                 options.DefaultChallengeScheme = "TestScheme";
-            }).AddScheme<AuthenticationSchemeOptions, TestAuthHandler>("TestScheme", options => { });
+            }).AddScheme<AuthenticationSchemeOptions, TestAuthHandler>("TestScheme", null);
 
             var dbContext = CreateDbContext(services);
         });
