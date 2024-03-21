@@ -1,24 +1,51 @@
-﻿using CarRental.Application;
-using MediatR;
+﻿using MediatR;
 using NetArchTest.Rules;
 
 namespace CarRental.UnitTests.Architecture;
 [TestFixture]
-public class ApplicationTests
+public class ApplicationTests : BaseTest
 {
     [Test]
-    public void HandlersShouldHaveProperNameTest()
+    public void RequestClassesShouldHaveProperName()
     {
         var result = Types
-            .InAssembly(typeof(ApplicationServicesRegistration).Assembly)
+            .InAssembly(ApplicationAssembly)
+            .That()
+            .ImplementInterface(typeof(IRequest<>))
+            .Should()
+            .HaveNameEndingWith("Query")
+            .Or()
+            .HaveNameEndingWith("Command")
+            .GetResult();
+
+        Assert.That(result.IsSuccessful);
+    }
+
+    [Test]
+    public void HandlersShouldHaveProperName()
+    {
+        var result = Types
+            .InAssembly(ApplicationAssembly)
             .That()
             .ImplementInterface(typeof(IRequestHandler<,>))
             .Should()
-            .HaveNameEndingWith("CommandHandler")
-            .Or()
-            .HaveNameEndingWith("QueryHandler")
+            .HaveNameEndingWith("Handler")
             .GetResult();
 
-        Assert.That(result.IsSuccessful, Is.True);
+        Assert.That(result.IsSuccessful);
+    }
+
+    [Test]
+    public void HandlersShouldHaveDependencyOnDomain()
+    {
+        var result = Types
+            .InAssembly(ApplicationAssembly)
+            .That()
+            .ImplementInterface(typeof(IRequestHandler<,>))
+            .Should()
+            .HaveDependencyOn(ApplicationAssembly.FullName)
+            .GetResult();
+
+        Assert.That(result.IsSuccessful);
     }
 }
