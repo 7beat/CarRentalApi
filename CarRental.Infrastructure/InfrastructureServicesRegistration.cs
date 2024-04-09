@@ -56,6 +56,7 @@ public static class InfrastructureServicesRegistration
         })
         .AddRoles<IdentityRole>()
         .AddEntityFrameworkStores<ApplicationDbContext>()
+        .AddSignInManager<SignInManager<ApplicationUser>>()
         .AddDefaultTokenProviders();
     }
 
