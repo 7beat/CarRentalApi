@@ -48,13 +48,13 @@ public static class InfrastructureServicesRegistration
 
     private static void ConfigureIdentity(this IServiceCollection services)
     {
-        var builder = services.AddIdentity<ApplicationUser, IdentityRole>(o =>
+        services.AddIdentityCore<ApplicationUser>(o =>
         {
+            o.User.RequireUniqueEmail = true;
             o.Password.RequireDigit = false;
             o.Password.RequireUppercase = false;
-
-            o.User.RequireUniqueEmail = true;
         })
+        .AddRoles<IdentityRole>()
         .AddEntityFrameworkStores<ApplicationDbContext>()
         .AddDefaultTokenProviders();
     }
