@@ -1,5 +1,6 @@
 using Asp.Versioning;
 using CarRental.Api.Configuration;
+using CarRental.Api.Controllers.V2;
 using CarRental.Api.Middleware;
 using CarRental.Infrastructure.Extensions;
 using HealthChecks.UI.Client;
@@ -18,6 +19,8 @@ builder.Services.ConfigureSwagger(builder.Configuration);
 
 builder.Services.AddTransient<ExceptionMiddleware>();
 
+builder.Services.AddScoped<CarsApi>();
+
 builder.Services.AddApiVersioning(options =>
 {
     options.DefaultApiVersion = new(1);
@@ -34,6 +37,8 @@ builder.Services.AddApiVersioning(options =>
 builder.Services.ConfigureOptions<ConfigureSwaggerGenOptions>();
 
 var app = builder.Build();
+
+app.RegsiterEndpoints();
 
 await app.SeedIdentityAsync();
 
