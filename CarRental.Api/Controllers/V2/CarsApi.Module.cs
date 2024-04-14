@@ -1,4 +1,5 @@
 ﻿using CarRental.Application.Contracts.Requests;
+using CarRental.Application.Exceptions;
 using CarRental.Application.Features.Cars.Commands;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -25,7 +26,8 @@ public partial class CarsApi
         var handler = new JwtSecurityTokenHandler();
         var jsonToken = handler.ReadToken(token) as JwtSecurityToken;
 
-        var userId = jsonToken!.Claims.First(claim => claim.Type == ClaimTypes.NameIdentifier).Value;
+        var userId = jsonToken!.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.NameIdentifier)?.Value ?? 
+            throw new UnAuthorizedException("UnAuthorized");
 
         return Guid.Parse(userId);
     }

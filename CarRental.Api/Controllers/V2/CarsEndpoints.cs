@@ -27,14 +27,8 @@ public static class CarsEndpoints
 
         groupBuilder.MapPost("add", async (
             AddCarRequest request,
-            HttpContext httpContext,
             HttpRequest httpRequest,
-            [FromServices] CarsApi module) => /*await module.AddCarAsync(request, httpRequest.Headers.Authorization.ToString())*/
-        {
-            var token = httpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
-
-            return await module.AddCarAsync(request, httpRequest.Headers.Authorization.ToString().Split(" ").Last());
-        })
+            [FromServices] CarsApi module) => await module.AddCarAsync(request, httpRequest.Headers.Authorization.ToString().Split(" ").Last()))
         .RequireAuthorization(opt => opt.RequireRole("Admin"));
     }
 }
