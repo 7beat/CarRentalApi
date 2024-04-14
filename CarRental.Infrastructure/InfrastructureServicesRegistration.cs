@@ -11,17 +11,19 @@ using CarRental.Infrastructure.Services.Messaging;
 using CarRental.Persistence;
 using MassTransit;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using System.Reflection;
 
 namespace CarRental.Infrastructure;
 
 public static class InfrastructureServicesRegistration
 {
-    public static void RegisterInfrastructure(this IServiceCollection services, IConfiguration configuration)
+    public static void RegisterInfrastructure(this IServiceCollection services, IConfiguration configuration, IWebHostEnvironment environment)
     {
         var connectionString = configuration.GetConnectionString("DefaultConnection");
         services.ConfigureDbContext(connectionString!);
@@ -31,8 +33,16 @@ public static class InfrastructureServicesRegistration
         services.AddTransient<IAuthorizationHandler, RoleAuthorizationHandler>();
         services.AddTransient<IRentalMessageService, RentalMessageService>();
         services.ConfigureIdentity();
-        services.ConfigureRabbitMQ();
-        services.ConfigureHealthChecks(connectionString!);
+        services.ConfigureHealthChecks(connectionString!, environment.IsDevelopment() ? "localhost" : "rabbitmq");
+
+        if (environment.IsDevelopment())
+        {
+            services.ConfigureRabbitMQ("localhost");
+        }
+        else
+        {
+            services.ConfigureRabbitMQ("rabbitmq");
+        }
     }
 
     private static void ConfigureDbContext(this IServiceCollection services, string connectionString)
@@ -60,7 +70,7 @@ public static class InfrastructureServicesRegistration
         .AddDefaultTokenProviders();
     }
 
-    private static void ConfigureRabbitMQ(this IServiceCollection services)
+    private static void ConfigureRabbitMQ(this IServiceCollection services, string host)
     {
         services.AddMassTransit(config =>
         {
@@ -73,7 +83,7 @@ public static class InfrastructureServicesRegistration
             });
             config.UsingRabbitMq((context, cfg) =>
             {
-                cfg.Host("localhost");
+                cfg.Host(host);
 
                 cfg.UseDelayedRedelivery(r => r.Intervals(TimeSpan.FromMinutes(5), TimeSpan.FromMinutes(15), TimeSpan.FromMinutes(30)));
                 cfg.UseMessageRetry(r => r.Immediate(5));
@@ -84,8 +94,8 @@ public static class InfrastructureServicesRegistration
         });
     }
 
-    private static void ConfigureHealthChecks(this IServiceCollection services, string connectionString) =>
+    private static void ConfigureHealthChecks(this IServiceCollection services, string connectionString, string host) =>
         services.AddHealthChecks()
         .AddSqlServer(connectionString)
-        .AddRabbitMQ(rabbitConnectionString: "amqp://guest:guest@localhost:5672/");
+        .AddRabbitMQ(rabbitConnectionString: $"amqp://guest:guest@{host}:5672/");
 }

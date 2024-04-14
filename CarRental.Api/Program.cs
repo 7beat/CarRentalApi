@@ -3,7 +3,9 @@ using CarRental.Api.Configuration;
 using CarRental.Api.Controllers.V2;
 using CarRental.Api.Middleware;
 using CarRental.Infrastructure.Extensions;
+using CarRental.Infrastructure.Persistence.Data;
 using HealthChecks.UI.Client;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +16,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.RegisterServices(builder.Configuration);
+builder.Services.RegisterServices(builder.Configuration, builder.Environment);
 builder.Services.ConfigureSwagger(builder.Configuration);
 
 builder.Services.AddTransient<ExceptionMiddleware>();
@@ -40,8 +42,6 @@ var app = builder.Build();
 
 app.RegsiterEndpoints();
 
-await app.SeedIdentityAsync();
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -59,6 +59,15 @@ if (app.Environment.IsDevelopment())
         }
     });
 }
+else if (app.Environment.IsStaging())
+{
+    using var scope = app.Services.CreateScope();
+    var scopedServices = scope.ServiceProvider;
+    var dbContext = scopedServices.GetRequiredService<ApplicationDbContext>();
+    await dbContext.Database.MigrateAsync();
+}
+
+await app.SeedIdentityAsync();
 
 app.UseHttpsRedirection();
 

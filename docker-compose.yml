@@ -1,0 +1,46 @@
+version: '3.4'
+name: carrental
+networks:
+  carrental:
+volumes:
+  sqlserver:
+
+services:
+  carrental.api:
+    container_name: CarRental.Api
+    image: ${DOCKER_REGISTRY-}carrentalapi
+    build:
+      context: .
+      dockerfile: CarRental.Api/Dockerfile
+    ports:
+    - "8080:8080"
+    depends_on:
+    - db
+    networks:
+    - carrental
+    environment:
+    - ASPNETCORE_ENVIRONMENT=Staging
+    - ASPNETCORE_HTTP_PORTS=8080
+
+  db:
+    container_name: CarRental-Db
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    ports:
+    - "1433:1433"
+    environment:
+        MSSQL_SA_PASSWORD: Password123!
+        ACCEPT_EULA: "Y"
+    networks:
+    - carrental
+    volumes:
+    - sqlserver:/var/opt/mssql
+
+  rabbitmq:
+    container_name: RabbitMQ
+    hostname: rabbitmq
+    image: rabbitmq:latest
+    ports:
+    - "5672:5672"
+    - "15672:15672"
+    networks:
+    - carrental
