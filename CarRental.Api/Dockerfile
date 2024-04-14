@@ -16,6 +16,9 @@ COPY ["CarRental.Utility/CarRental.Utility.csproj", "CarRental.Utility/"]
 COPY ["CarRental.Infrastructure/CarRental.Infrastructure.csproj", "CarRental.Infrastructure/"]
 RUN dotnet restore "./CarRental.Api/CarRental.Api.csproj"
 COPY . .
+RUN dotnet test "./CarRental.Tests/CarRental.UnitTests.csproj" -c $BUILD_CONFIGURATION \
+&& dotnet test "./CarRental.IntegrationTests/CarRental.IntegrationTests.csproj" -c $BUILD_CONFIGURATION
+
 WORKDIR "/src/CarRental.Api"
 RUN dotnet build "./CarRental.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
