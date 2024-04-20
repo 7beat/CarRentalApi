@@ -45,3 +45,13 @@ services:
     - "15672:15672"
     networks:
     - carrental
+  seq:
+    container_name: CarRental-Seq
+    image: datalust/seq:latest
+    environment:
+    - ACCEPT_EULA=Y
+    ports:
+    - 5341:5341
+    - 8081:80
+    networks:
+    - carrental
