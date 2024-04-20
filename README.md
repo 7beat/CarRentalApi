@@ -5,7 +5,7 @@ Simple yet powerful Web API and improved version of my old Api, providing contro
 
 ## Data
 TPC strategy was used to distinguish vehicles and make them inherit common properties from base abstract Vehicle class.
-EntityBase class ins equiped with **CreatedBy and CreatedAt** properties to control the lifecycle of entities
+EntityBase class is equiped with **CreatedBy and CreatedAt** properties to control the lifecycle of entities
 
 ## Features
 * Authentication using Jwt Token and Server-Side Authorization
