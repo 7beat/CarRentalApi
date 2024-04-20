@@ -6,8 +6,12 @@ using CarRental.Infrastructure.Extensions;
 using CarRental.Infrastructure.Persistence.Data;
 using HealthChecks.UI.Client;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((context, loggerConfig) =>
+loggerConfig.ReadFrom.Configuration(context.Configuration));
 
 // Add services to the container.
 
