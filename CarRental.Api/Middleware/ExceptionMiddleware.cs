@@ -5,7 +5,7 @@ using System.Net;
 
 namespace CarRental.Api.Middleware;
 
-public class ExceptionMiddleware : IMiddleware
+public class ExceptionMiddleware(ILogger<ExceptionMiddleware> logger) : IMiddleware
 {
     public async Task InvokeAsync(HttpContext httpContext, RequestDelegate next)
     {
@@ -23,6 +23,7 @@ public class ExceptionMiddleware : IMiddleware
     {
         HttpStatusCode statusCode = HttpStatusCode.InternalServerError;
         ProblemDetails problem = new();
+        logger.LogError($"Exception occured: {ex.Message}");
 
         switch (ex)
         {
