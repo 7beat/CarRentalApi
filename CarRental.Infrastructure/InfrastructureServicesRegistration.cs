@@ -3,7 +3,6 @@ using CarRental.Application.Contracts.Messaging.Events;
 using CarRental.Application.Contracts.Messaging.Services;
 using CarRental.Application.Contracts.Persistence;
 using CarRental.Application.Contracts.Persistence.IRepositories;
-using CarRental.Infrastructure.Extensions;
 using CarRental.Infrastructure.Identity.Models;
 using CarRental.Infrastructure.Persistence.Data;
 using CarRental.Infrastructure.Persistence.Repositories;
@@ -98,6 +97,5 @@ public static class InfrastructureServicesRegistration
     private static void ConfigureHealthChecks(this IServiceCollection services, string connectionString, string host) =>
         services.AddHealthChecks()
         .AddSqlServer(connectionString)
-        .AddRabbitMQ(rabbitConnectionString: $"amqp://guest:guest@{host}:5672/")
-        .AddSeq();
+        .AddRabbitMQ(rabbitConnectionString: $"amqp://guest:guest@{host}:5672/");
 }
