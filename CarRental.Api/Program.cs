@@ -3,9 +3,7 @@ using CarRental.Api.Configuration;
 using CarRental.Api.Controllers.V2;
 using CarRental.Api.Middleware;
 using CarRental.Infrastructure.Extensions;
-using CarRental.Infrastructure.Persistence.Data;
 using HealthChecks.UI.Client;
-using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -65,10 +63,7 @@ if (app.Environment.IsDevelopment())
 }
 else if (app.Environment.IsStaging())
 {
-    using var scope = app.Services.CreateScope();
-    var scopedServices = scope.ServiceProvider;
-    var dbContext = scopedServices.GetRequiredService<ApplicationDbContext>();
-    await dbContext.Database.MigrateAsync();
+    await app.ApplyMigrationsAsync();
 }
 
 await app.SeedIdentityAsync();
