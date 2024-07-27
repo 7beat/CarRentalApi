@@ -1,10 +1,15 @@
 using Asp.Versioning;
 using CarRental.Api.Configuration;
+using CarRental.Api.Controllers.V2;
 using CarRental.Api.Middleware;
 using CarRental.Infrastructure.Extensions;
 using HealthChecks.UI.Client;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((context, loggerConfig) =>
+loggerConfig.ReadFrom.Configuration(context.Configuration));
 
 // Add services to the container.
 
@@ -13,10 +18,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.RegisterServices(builder.Configuration);
+builder.Services.RegisterServices(builder.Configuration, builder.Environment);
 builder.Services.ConfigureSwagger(builder.Configuration);
 
 builder.Services.AddTransient<ExceptionMiddleware>();
+
+builder.Services.AddScoped<CarsApi>();
 
 builder.Services.AddApiVersioning(options =>
 {
@@ -35,7 +42,7 @@ builder.Services.ConfigureOptions<ConfigureSwaggerGenOptions>();
 
 var app = builder.Build();
 
-await app.SeedIdentityAsync();
+app.RegsiterEndpoints();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -54,6 +61,12 @@ if (app.Environment.IsDevelopment())
         }
     });
 }
+else if (app.Environment.IsStaging())
+{
+    await app.ApplyMigrationsAsync();
+}
+
+await app.SeedIdentityAsync();
 
 app.UseHttpsRedirection();
 

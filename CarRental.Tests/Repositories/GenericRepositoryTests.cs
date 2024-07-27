@@ -37,10 +37,11 @@ public class GenericRepositoryTests
         unitOfWork = new UnitOfWork(dbContext);
     }
 
-    [TearDown]
+    [OneTimeTearDown]
     public void CleanUp()
     {
         dbContext!.Database.EnsureDeleted();
+        dbContext.Dispose();
     }
 
     private void SeedDataBase()

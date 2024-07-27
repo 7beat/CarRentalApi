@@ -30,6 +30,12 @@ public class CarRepositoryTests
         unitOfWork = new UnitOfWork(dbContext);
     }
 
+    [OneTimeTearDown]
+    public void OneTimeTearDown()
+    {
+        dbContext.Dispose();
+    }
+
     private void SeedDataBase() // Move whole appDbContext logic to builder class. appDbContext = appDbContextHelper.BuildTestDbContext()
     {
         var testEngine = new Engine()
