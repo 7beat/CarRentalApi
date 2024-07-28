@@ -20,3 +20,5 @@ EntityBase class is equiped with **CreatedBy and CreatedAt** properties to contr
 * Integration Tests
 * Versioning
 * Documentation
+* Seq log server
+* Containerized using Docker
