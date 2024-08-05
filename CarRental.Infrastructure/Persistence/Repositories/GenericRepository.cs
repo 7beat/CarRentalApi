@@ -39,7 +39,7 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
         return await dbSet.Where(predicate).ToListAsync(cancellationToken);
     }
 
-    public async Task<TEntity> FindSingleAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken)
+    public async Task<TEntity?> FindSingleAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken)
     {
         return await dbSet.SingleOrDefaultAsync(predicate, cancellationToken);
     }
