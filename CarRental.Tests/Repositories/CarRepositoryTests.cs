@@ -4,9 +4,10 @@ using CarRental.Domain.Entities;
 using CarRental.Infrastructure.Persistence.Data;
 using CarRental.Persistence;
 using CarRental.Persistence.Repositories;
+using CarRental.UnitTests.Builders;
 using Microsoft.EntityFrameworkCore;
 
-namespace CarRental.Tests.Repositories;
+namespace CarRental.UnitTests.Repositories;
 [TestFixture]
 public class CarRepositoryTests
 {
@@ -49,6 +50,13 @@ public class CarRepositoryTests
             Model = "TestEngine"
         };
         dbContext!.Engines.Add(testEngine);
+    }
+
+    [Test]
+    public async Task AddCarShouldCreateEntity()
+    {
+        var car = CarFaker.Car().Generate();
+        Console.WriteLine();
     }
 
     //[Test] // Obsolete
