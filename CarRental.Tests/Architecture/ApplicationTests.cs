@@ -11,6 +11,8 @@ public class ApplicationTests : BaseTest
         var result = Types
             .InAssembly(ApplicationAssembly)
             .That()
+            .ImplementInterface(typeof(IRequest))
+            .Or()
             .ImplementInterface(typeof(IRequest<>))
             .Should()
             .HaveNameEndingWith("Query")
