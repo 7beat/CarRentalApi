@@ -40,6 +40,12 @@ builder.Services.AddApiVersioning(options =>
 
 builder.Services.ConfigureOptions<ConfigureSwaggerGenOptions>();
 
+builder.Host.UseDefaultServiceProvider(serviceProviderOptions =>
+{
+    serviceProviderOptions.ValidateScopes = true;
+    serviceProviderOptions.ValidateOnBuild = true;
+});
+
 var app = builder.Build();
 
 app.RegsiterEndpoints();
