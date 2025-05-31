@@ -6,15 +6,10 @@ using MediatR;
 namespace CarRental.Application.Features.Vehicles.Queries;
 public record GetAllVehiclesOfTypeQuery(VehicleType VehicleType) : IRequest<IEnumerable<VehicleDto>>;
 
-internal class GetSingleVehicleOfTypeQueryHandler : IRequestHandler<GetAllVehiclesOfTypeQuery, IEnumerable<VehicleDto>>
+internal class GetAllVehiclesOfTypeQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : IRequestHandler<GetAllVehiclesOfTypeQuery, IEnumerable<VehicleDto>>
 {
-    private readonly IUnitOfWork unitOfWork;
-    private readonly IMapper mapper;
-    public GetSingleVehicleOfTypeQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
-    {
-        this.unitOfWork = unitOfWork;
-        this.mapper = mapper;
-    }
+    private readonly IUnitOfWork unitOfWork = unitOfWork;
+    private readonly IMapper mapper = mapper;
 
     public async Task<IEnumerable<VehicleDto>> Handle(GetAllVehiclesOfTypeQuery request, CancellationToken cancellationToken)
     {

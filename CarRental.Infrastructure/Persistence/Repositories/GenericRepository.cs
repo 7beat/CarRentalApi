@@ -1,8 +1,8 @@
-﻿using CarRental.Application.Contracts.Persistence.IRepositories;
+﻿using System.Linq.Expressions;
+using CarRental.Application.Contracts.Persistence.IRepositories;
 using CarRental.Domain.Common;
 using CarRental.Infrastructure.Persistence.Data;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 
 namespace CarRental.Persistence.Repositories;
 public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : EntityBase
@@ -42,6 +42,12 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
     public async Task<TEntity?> FindSingleAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken)
     {
         return await dbSet.SingleOrDefaultAsync(predicate, cancellationToken);
+    }
+
+    public async Task<TEntity?> FindSingleAsync(Expression<Func<TEntity, bool>> predicate, bool trackChanges, CancellationToken cancellationToken)
+    {
+        var query = trackChanges ? dbSet : dbSet.AsNoTracking();
+        return await query.SingleOrDefaultAsync(predicate, cancellationToken);
     }
 
     public void Remove(TEntity entity)
